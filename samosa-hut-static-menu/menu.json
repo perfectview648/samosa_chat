@@ -136,7 +136,7 @@
         { "name": "Thursday", "price": "$9.99", "note": "Fusion Shawarma Pocket + Pop", "imageSlot": true, "image": "" },
         { "name": "Friday", "price": "$10.99", "note": "Fusion Panzo + Pop", "imageSlot": true, "image": "" },
         { "name": "Saturday", "price": "$13.99", "note": "Fusion Shawarma Plate + Pop", "imageSlot": true, "image": "" },
-        { "name": "Sunday", "price": "$10.99", "note": "Samosa Chaat + Pop · Any protein or veggie", "imageSlot": true, "image": "" }
+        { "name": "Sunday", "price": "$10.99", "note": "Samosa Chaat + Pop · Any protein or veggie", "imageSlot": true, "image": "", "allergyWarning": "May contain peanuts." }
       ],
       "footnote": "All specials include pop. Prices are exclusive of tax."
     },
