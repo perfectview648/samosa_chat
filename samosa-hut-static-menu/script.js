@@ -1,6 +1,6 @@
 "use strict";
 
-const state = { 
+const state = {
   menu: null,
   currentIndex: -1,
   coverOpen: false,
@@ -10,7 +10,7 @@ const state = {
   searchMatches: [],
   touchStart: null,
 };
- 
+
 const elements = {
   app: document.querySelector("#app"),
   cover: document.querySelector("#cover"),
@@ -54,16 +54,26 @@ function itemAnchor(categoryId, itemName) {
 }
 
 function itemPrice(item) {
-  return item.price || item.options?.[0]?.price || "See options";
+  return (
+    item.price ||
+    item.options?.[0]?.price ||
+    "See options"
+  );
 }
 
 function setupOptionalImages(root = document) {
   root
     .querySelectorAll("[data-optional-image]")
     .forEach((container) => {
-      const image = container.querySelector("[data-image]");
+      const image =
+        container.querySelector("[data-image]");
 
-      if (!image || image.dataset.ready === "true") return;
+      if (
+        !image ||
+        image.dataset.ready === "true"
+      ) {
+        return;
+      }
 
       image.dataset.ready = "true";
 
@@ -76,8 +86,17 @@ function setupOptionalImages(root = document) {
         image.hidden = true;
       };
 
-      image.addEventListener("load", showImage, { once: true });
-      image.addEventListener("error", showFallback, { once: true });
+      image.addEventListener(
+        "load",
+        showImage,
+        { once: true }
+      );
+
+      image.addEventListener(
+        "error",
+        showFallback,
+        { once: true }
+      );
 
       if (image.complete) {
         if (image.naturalWidth > 0) {
@@ -89,17 +108,29 @@ function setupOptionalImages(root = document) {
     });
 }
 
-function renderPrice(item, choicesShown = false) {
-  if (item.options?.length && !choicesShown) {
+function renderPrice(
+  item,
+  choicesShown = false
+) {
+  if (
+    item.options?.length &&
+    !choicesShown
+  ) {
     return `
       <div class="price-options">
         ${item.options
           .map(
             (option) => `
               <div class="price-line">
-                <span>${escapeHTML(option.label)}</span>
+                <span>
+                  ${escapeHTML(option.label)}
+                </span>
+
                 <i aria-hidden="true"></i>
-                <strong>${escapeHTML(option.price)}</strong>
+
+                <strong>
+                  ${escapeHTML(option.price)}
+                </strong>
               </div>
             `
           )
@@ -109,7 +140,11 @@ function renderPrice(item, choicesShown = false) {
   }
 
   return item.price
-    ? `<strong class="single-price">${escapeHTML(item.price)}</strong>`
+    ? `
+      <strong class="single-price">
+        ${escapeHTML(item.price)}
+      </strong>
+    `
     : "";
 }
 
@@ -119,10 +154,15 @@ function renderChoices(item) {
   const list = `
     <ul
       class="choice-list"
-      aria-label="${escapeHTML(item.name)} choices"
+      aria-label="${escapeHTML(
+        item.name
+      )} choices"
     >
       ${item.choices
-        .map((choice) => `<li>${escapeHTML(choice)}</li>`)
+        .map(
+          (choice) =>
+            `<li>${escapeHTML(choice)}</li>`
+        )
         .join("")}
     </ul>
   `;
@@ -131,14 +171,21 @@ function renderChoices(item) {
     ? `
       <div
         class="choice-prices"
-        aria-label="${escapeHTML(item.name)} prices"
+        aria-label="${escapeHTML(
+          item.name
+        )} prices"
       >
         ${item.options
           .map(
             (option) => `
               <span>
-                <small>${escapeHTML(option.label)}</small>
-                <strong>${escapeHTML(option.price)}</strong>
+                <small>
+                  ${escapeHTML(option.label)}
+                </small>
+
+                <strong>
+                  ${escapeHTML(option.price)}
+                </strong>
               </span>
             `
           )
@@ -151,7 +198,9 @@ function renderChoices(item) {
 }
 
 function renderImageSlot(item, index) {
-  if (!item.imageSlot && !item.image) return "";
+  if (!item.imageSlot && !item.image) {
+    return "";
+  }
 
   if (item.image) {
     const isInitiallyVisible = index < 2;
@@ -161,15 +210,25 @@ function renderImageSlot(item, index) {
         class="product-image-slot"
         type="button"
         data-enlarge-image
-        aria-label="Enlarge image of ${escapeHTML(item.name)}"
+        aria-label="Enlarge image of ${escapeHTML(
+          item.name
+        )}"
       >
         <img
           src="${escapeHTML(item.image)}"
           alt="${escapeHTML(item.name)}"
           width="800"
           height="800"
-          loading="${isInitiallyVisible ? "eager" : "lazy"}"
-          fetchpriority="${isInitiallyVisible ? "high" : "low"}"
+          loading="${
+            isInitiallyVisible
+              ? "eager"
+              : "lazy"
+          }"
+          fetchpriority="${
+            isInitiallyVisible
+              ? "high"
+              : "low"
+          }"
           decoding="async"
         >
       </button>
@@ -184,18 +243,34 @@ function renderImageSlot(item, index) {
   `;
 }
 
-function renderItem(category, item, index) {
-  const hasImage = Boolean(item.imageSlot || item.image);
+function renderItem(
+  category,
+  item,
+  index
+) {
+  const hasImage = Boolean(
+    item.imageSlot || item.image
+  );
 
   const isDailySpecial =
     category.id === "menu-daily-specials" ||
-    category.id === "samosa-daily-specials";
+    category.id ===
+      "samosa-daily-specials";
 
   return `
     <article
-      id="${escapeHTML(itemAnchor(category.id, item.name))}"
-      class="menu-item${hasImage ? " has-image" : ""}${
-        isDailySpecial ? " daily-special-card" : ""
+      id="${escapeHTML(
+        itemAnchor(
+          category.id,
+          item.name
+        )
+      )}"
+      class="menu-item${
+        hasImage ? " has-image" : ""
+      }${
+        isDailySpecial
+          ? " daily-special-card"
+          : ""
       }"
     >
       ${renderImageSlot(item, index)}
@@ -203,25 +278,42 @@ function renderItem(category, item, index) {
       <div class="menu-item-content">
         <div class="item-topline">
           <span class="item-number">
-            ${String(index + 1).padStart(2, "0")}
+            ${String(index + 1).padStart(
+              2,
+              "0"
+            )}
           </span>
 
-          <h3>${escapeHTML(item.name)}</h3>
+          <h3>
+            ${escapeHTML(item.name)}
+          </h3>
 
           ${
             item.accent
-              ? `<em>${escapeHTML(item.accent)}</em>`
+              ? `
+                <em>
+                  ${escapeHTML(item.accent)}
+                </em>
+              `
               : ""
           }
 
-          ${renderPrice(item, Boolean(item.choices?.length))}
+          ${renderPrice(
+            item,
+            Boolean(item.choices?.length)
+          )}
         </div>
 
         ${renderChoices(item)}
 
         ${
-          !item.choices?.length && item.note
-            ? `<p>${escapeHTML(item.note)}</p>`
+          !item.choices?.length &&
+          item.note
+            ? `
+              <p>
+                ${escapeHTML(item.note)}
+              </p>
+            `
             : ""
         }
 
@@ -229,8 +321,13 @@ function renderItem(category, item, index) {
           item.allergyWarning
             ? `
               <p class="item-allergy-note">
-                <strong>Allergy warning:</strong>
-                ${escapeHTML(item.allergyWarning)}
+                <strong>
+                  Allergy warning:
+                </strong>
+
+                ${escapeHTML(
+                  item.allergyWarning
+                )}
               </p>
             `
             : ""
@@ -244,10 +341,12 @@ function renderFlavourGuide(guide) {
   if (!guide) return "";
 
   const words = String(
-    guide.title || "Choose your Flavour"
+    guide.title ||
+      "Choose your Flavour"
   ).split(" ");
 
-  const finalWord = words.pop() || "Flavour";
+  const finalWord =
+    words.pop() || "Flavour";
 
   return `
     <section
@@ -255,19 +354,34 @@ function renderFlavourGuide(guide) {
       aria-label="Fusion flavour choices"
     >
       <div class="fusion-guide-intro">
-        <p>${escapeHTML(words.join(" "))}</p>
-        <h3>${escapeHTML(finalWord)}</h3>
-        <small>${escapeHTML(guide.note)}</small>
+        <p>
+          ${escapeHTML(words.join(" "))}
+        </p>
+
+        <h3>
+          ${escapeHTML(finalWord)}
+        </h3>
+
+        <small>
+          ${escapeHTML(guide.note)}
+        </small>
       </div>
 
       <span
         class="fusion-guide-arrow"
         aria-hidden="true"
-      >→</span>
+      >
+        →
+      </span>
 
       <ul>
         ${guide.choices
-          .map((choice) => `<li>${escapeHTML(choice)}</li>`)
+          .map(
+            (choice) =>
+              `<li>${escapeHTML(
+                choice
+              )}</li>`
+          )
           .join("")}
       </ul>
     </section>
@@ -285,24 +399,35 @@ function renderSpecialNotice(notice) {
       <div class="specials-notice-main">
         ${notice.primary
           .map(
-            (line) => `<strong>${escapeHTML(line)}</strong>`
+            (line) => `
+              <strong>
+                ${escapeHTML(line)}
+              </strong>
+            `
           )
           .join("")}
       </div>
 
-      <p>(${escapeHTML(notice.secondary)})</p>
+      <p>
+        (${escapeHTML(
+          notice.secondary
+        )})
+      </p>
     </section>
   `;
 }
 
 function renderCategories() {
-  const categories = state.menu.categories;
+  const categories =
+    state.menu.categories;
 
   return `
     <section class="contents-page">
       <div class="contents-heading">
         <p>Choose your craving</p>
+
         <h2>Menu Categories</h2>
+
         <span
           class="hand-underline"
           aria-hidden="true"
@@ -318,21 +443,36 @@ function renderCategories() {
                 class="category-tile"
                 data-category-index="${index}"
               >
-                <span class="category-number">
-                  ${escapeHTML(category.number)}
+                <span
+                  class="category-number"
+                >
+                  ${escapeHTML(
+                    category.number
+                  )}
                 </span>
 
-                <span class="category-copy">
-                  <b>${escapeHTML(category.name)}</b>
+                <span
+                  class="category-copy"
+                >
+                  <b>
+                    ${escapeHTML(
+                      category.name
+                    )}
+                  </b>
+
                   <small>
-                    ${escapeHTML(category.description)}
+                    ${escapeHTML(
+                      category.description
+                    )}
                   </small>
                 </span>
 
                 <span
                   class="category-arrow"
                   aria-hidden="true"
-                >↗</span>
+                >
+                  ↗
+                </span>
               </button>
             `
           )
@@ -340,43 +480,67 @@ function renderCategories() {
       </div>
 
       <p class="tax-note">
-        Prices shown are exclusive of applicable taxes.
+        Prices shown are exclusive of
+        applicable taxes.
       </p>
     </section>
   `;
 }
 
 function renderCategory(category) {
-  const ending = category.flavourGuide
-    ? renderFlavourGuide(category.flavourGuide)
-    : category.specialNotice
-    ? renderSpecialNotice(category.specialNotice)
-    : category.footnote
-    ? `
-      <p class="category-footnote">
-        ${escapeHTML(category.footnote)}
-      </p>
-    `
-    : "";
+  const ending =
+    category.flavourGuide
+      ? renderFlavourGuide(
+          category.flavourGuide
+        )
+      : category.specialNotice
+      ? renderSpecialNotice(
+          category.specialNotice
+        )
+      : category.footnote
+      ? `
+        <p class="category-footnote">
+          ${escapeHTML(
+            category.footnote
+          )}
+        </p>
+      `
+      : "";
 
   return `
     <section class="category-page">
       <div class="category-heading">
-        <p>${escapeHTML(category.eyebrow)}</p>
-        <h2>${escapeHTML(category.name)}</h2>
+        <p>
+          ${escapeHTML(
+            category.eyebrow
+          )}
+        </p>
+
+        <h2>
+          ${escapeHTML(category.name)}
+        </h2>
 
         <span
           class="hand-underline"
           aria-hidden="true"
         ></span>
 
-        <small>${escapeHTML(category.description)}</small>
+        <small>
+          ${escapeHTML(
+            category.description
+          )}
+        </small>
       </div>
 
       <div class="menu-grid">
         ${category.items
-          .map((item, index) =>
-            renderItem(category, item, index)
+          .map(
+            (item, index) =>
+              renderItem(
+                category,
+                item,
+                index
+              )
           )
           .join("")}
       </div>
@@ -387,17 +551,27 @@ function renderCategory(category) {
 }
 
 function updateNavigation() {
-  const total = state.menu.categories.length;
-  const isCategories = state.currentIndex < 0;
+  const total =
+    state.menu.categories.length;
 
-  elements.pageCount.textContent = isCategories
-    ? `${total} categories`
-    : `${String(state.currentIndex + 1).padStart(
-        2,
-        "0"
-      )} / ${String(total).padStart(2, "0")}`;
+  const isCategories =
+    state.currentIndex < 0;
 
-  elements.previousButton.disabled = isCategories;
+  elements.pageCount.textContent =
+    isCategories
+      ? `${total} categories`
+      : `${String(
+          state.currentIndex + 1
+        ).padStart(
+          2,
+          "0"
+        )} / ${String(total).padStart(
+          2,
+          "0"
+        )}`;
+
+  elements.previousButton.disabled =
+    isCategories;
 
   elements.nextButton.disabled =
     state.currentIndex >= total - 1;
@@ -411,35 +585,50 @@ function updateNavigation() {
 function renderView() {
   const category =
     state.currentIndex >= 0
-      ? state.menu.categories[state.currentIndex]
+      ? state.menu.categories[
+          state.currentIndex
+        ]
       : null;
 
-  elements.pageStage.innerHTML = category
-    ? renderCategory(category)
-    : renderCategories();
+  elements.pageStage.innerHTML =
+    category
+      ? renderCategory(category)
+      : renderCategories();
 
   updateNavigation();
 }
 
 async function goTo(index) {
-  if (!state.menu || state.transitioning) return;
+  if (
+    !state.menu ||
+    state.transitioning
+  ) {
+    return;
+  }
 
   const target = Math.max(
     -1,
-    Math.min(state.menu.categories.length - 1, index)
+    Math.min(
+      state.menu.categories.length - 1,
+      index
+    )
   );
 
   if (target === state.currentIndex) {
     window.scrollTo({
       top: 0,
-      behavior: reducedMotion.matches ? "auto" : "smooth",
+      behavior: reducedMotion.matches
+        ? "auto"
+        : "smooth",
     });
 
     return;
   }
 
   const direction =
-    target > state.currentIndex ? 1 : -1;
+    target > state.currentIndex
+      ? 1
+      : -1;
 
   state.transitioning = true;
 
@@ -447,25 +636,27 @@ async function goTo(index) {
     !reducedMotion.matches &&
     elements.pageStage.animate
   ) {
-    const out = elements.pageStage.animate(
-      [
+    const out =
+      elements.pageStage.animate(
+        [
+          {
+            opacity: 1,
+            transform:
+              "translate3d(0,0,0)",
+          },
+          {
+            opacity: 0,
+            transform: `translate3d(${
+              direction * -28
+            }px,0,0)`,
+          },
+        ],
         {
-          opacity: 1,
-          transform: "translate3d(0,0,0)",
-        },
-        {
-          opacity: 0,
-          transform: `translate3d(${
-            direction * -28
-          }px,0,0)`,
-        },
-      ],
-      {
-        duration: 130,
-        easing: "ease-out",
-        fill: "forwards",
-      }
-    );
+          duration: 130,
+          easing: "ease-out",
+          fill: "forwards",
+        }
+      );
 
     await out.finished.catch(() => {});
   }
@@ -483,27 +674,32 @@ async function goTo(index) {
     !reducedMotion.matches &&
     elements.pageStage.animate
   ) {
-    const incoming = elements.pageStage.animate(
-      [
+    const incoming =
+      elements.pageStage.animate(
+        [
+          {
+            opacity: 0,
+            transform: `translate3d(${
+              direction * 28
+            }px,0,0)`,
+          },
+          {
+            opacity: 1,
+            transform:
+              "translate3d(0,0,0)",
+          },
+        ],
         {
-          opacity: 0,
-          transform: `translate3d(${
-            direction * 28
-          }px,0,0)`,
-        },
-        {
-          opacity: 1,
-          transform: "translate3d(0,0,0)",
-        },
-      ],
-      {
-        duration: 190,
-        easing: "cubic-bezier(.2,.75,.2,1)",
-        fill: "both",
-      }
-    );
+          duration: 190,
+          easing:
+            "cubic-bezier(.2,.75,.2,1)",
+          fill: "both",
+        }
+      );
 
-    await incoming.finished.catch(() => {});
+    await incoming.finished.catch(
+      () => {}
+    );
   }
 
   state.transitioning = false;
@@ -514,7 +710,9 @@ function openMenu() {
 
   state.coverOpen = true;
 
-  elements.app.classList.add("is-open");
+  elements.app.classList.add(
+    "is-open"
+  );
 
   elements.cover.setAttribute(
     "aria-hidden",
@@ -531,7 +729,6 @@ function openMenu() {
 
 function returnToCover() {
   closeSearch();
-  closeImageViewer();
 
   state.currentIndex = -1;
 
@@ -539,7 +736,9 @@ function returnToCover() {
 
   state.coverOpen = false;
 
-  elements.app.classList.remove("is-open");
+  elements.app.classList.remove(
+    "is-open"
+  );
 
   elements.cover.setAttribute(
     "aria-hidden",
@@ -571,12 +770,15 @@ function openSearch() {
     "false"
   );
 
-  document.body.classList.add("modal-open");
+  document.body.classList.add(
+    "modal-open"
+  );
 
   renderSearchResults("");
 
   window.setTimeout(
-    () => elements.searchInput.focus(),
+    () =>
+      elements.searchInput.focus(),
     80
   );
 }
@@ -597,22 +799,37 @@ function closeSearch() {
 
   elements.searchInput.value = "";
 
-  document.body.classList.remove("modal-open");
+  document.body.classList.remove(
+    "modal-open"
+  );
 }
 
 function setupImageViewer() {
-  const viewer = document.createElement("section");
+  const viewer =
+    document.createElement("section");
 
   viewer.id = "image-viewer";
   viewer.className = "image-viewer";
 
-  viewer.setAttribute("role", "dialog");
-  viewer.setAttribute("aria-modal", "true");
+  viewer.setAttribute(
+    "role",
+    "dialog"
+  );
+
+  viewer.setAttribute(
+    "aria-modal",
+    "true"
+  );
+
   viewer.setAttribute(
     "aria-label",
     "Food image viewer"
   );
-  viewer.setAttribute("aria-hidden", "true");
+
+  viewer.setAttribute(
+    "aria-hidden",
+    "true"
+  );
 
   viewer.innerHTML = `
     <button
@@ -640,11 +857,46 @@ function setupImageViewer() {
     viewer.querySelector("p");
 
   elements.imageViewerClose =
-    viewer.querySelector(".image-viewer-close");
+    viewer.querySelector(
+      ".image-viewer-close"
+    );
+}
+
+function setupBackToTop() {
+  const button =
+    document.createElement("button");
+
+  button.className = "back-to-top";
+  button.type = "button";
+
+  button.setAttribute(
+    "aria-label",
+    "Back to top"
+  );
+
+  button.setAttribute(
+    "title",
+    "Back to top"
+  );
+
+  document.body.appendChild(button);
+
+  elements.backToTop = button;
+}
+
+function updateBackToTop() {
+  if (!elements.backToTop) return;
+
+  elements.backToTop.classList.toggle(
+    "is-visible",
+    state.coverOpen &&
+      window.scrollY > 420
+  );
 }
 
 function openImageViewer(trigger) {
-  const image = trigger.querySelector("img");
+  const image =
+    trigger.querySelector("img");
 
   if (!image) return;
 
@@ -654,7 +906,8 @@ function openImageViewer(trigger) {
   elements.imageViewerImage.src =
     image.currentSrc || image.src;
 
-  elements.imageViewerImage.alt = image.alt;
+  elements.imageViewerImage.alt =
+    image.alt;
 
   elements.imageViewerCaption.textContent =
     image.alt;
@@ -668,10 +921,13 @@ function openImageViewer(trigger) {
     "false"
   );
 
-  document.body.classList.add("modal-open");
+  document.body.classList.add(
+    "modal-open"
+  );
 
   window.setTimeout(
-    () => elements.imageViewerClose.focus(),
+    () =>
+      elements.imageViewerClose.focus(),
     80
   );
 }
@@ -690,9 +946,13 @@ function closeImageViewer() {
     "true"
   );
 
-  elements.imageViewerImage.removeAttribute("src");
+  elements.imageViewerImage.removeAttribute(
+    "src"
+  );
 
-  document.body.classList.remove("modal-open");
+  document.body.classList.remove(
+    "modal-open"
+  );
 
   state.lastImageTrigger?.focus();
   state.lastImageTrigger = null;
@@ -706,7 +966,10 @@ function buildSearchMatches(query) {
   if (!normalized) return [];
 
   return state.menu.categories.flatMap(
-    (category, categoryIndex) =>
+    (
+      category,
+      categoryIndex
+    ) =>
       category.items
         .filter((item) => {
           const searchable = [
@@ -715,14 +978,17 @@ function buildSearchMatches(query) {
             item.accent,
             ...(item.choices || []),
             ...(item.options || []).map(
-              (option) => option.label
+              (option) =>
+                option.label
             ),
           ]
             .filter(Boolean)
             .join(" ")
             .toLowerCase();
 
-          return searchable.includes(normalized);
+          return searchable.includes(
+            normalized
+          );
         })
         .map((item) => ({
           category,
@@ -739,8 +1005,10 @@ function renderSearchResults(query) {
   if (!query.trim()) {
     elements.searchResults.innerHTML = `
       <p class="search-state">
-        Search every item, flavour and option across all
-        ${state.menu.categories.length} categories.
+        Search every item, flavour and
+        option across all
+        ${state.menu.categories.length}
+        categories.
       </p>
     `;
 
@@ -761,7 +1029,10 @@ function renderSearchResults(query) {
   elements.searchResults.innerHTML =
     state.searchMatches
       .map(
-        ({ category, item }, index) => `
+        (
+          { category, item },
+          index
+        ) => `
           <button
             type="button"
             class="search-result"
@@ -769,20 +1040,34 @@ function renderSearchResults(query) {
           >
             <span>
               <small>
-                ${escapeHTML(category.shortName)}
+                ${escapeHTML(
+                  category.shortName
+                )}
               </small>
 
-              <b>${escapeHTML(item.name)}</b>
+              <b>
+                ${escapeHTML(
+                  item.name
+                )}
+              </b>
 
               ${
                 item.note
-                  ? `<em>${escapeHTML(item.note)}</em>`
+                  ? `
+                    <em>
+                      ${escapeHTML(
+                        item.note
+                      )}
+                    </em>
+                  `
                   : ""
               }
             </span>
 
             <strong>
-              ${escapeHTML(itemPrice(item))}
+              ${escapeHTML(
+                itemPrice(item)
+              )}
             </strong>
           </button>
         `
@@ -790,8 +1075,11 @@ function renderSearchResults(query) {
       .join("");
 }
 
-async function chooseSearchMatch(index) {
-  const match = state.searchMatches[index];
+async function chooseSearchMatch(
+  index
+) {
+  const match =
+    state.searchMatches[index];
 
   if (!match) return;
 
@@ -827,7 +1115,8 @@ function bindEvents() {
 
   elements.previousButton.addEventListener(
     "click",
-    () => goTo(state.currentIndex - 1)
+    () =>
+      goTo(state.currentIndex - 1)
   );
 
   elements.categoriesButton.addEventListener(
@@ -837,7 +1126,8 @@ function bindEvents() {
 
   elements.nextButton.addEventListener(
     "click",
-    () => goTo(state.currentIndex + 1)
+    () =>
+      goTo(state.currentIndex + 1)
   );
 
   elements.searchTrigger.addEventListener(
@@ -853,27 +1143,35 @@ function bindEvents() {
   elements.searchInput.addEventListener(
     "input",
     (event) =>
-      renderSearchResults(event.target.value)
+      renderSearchResults(
+        event.target.value
+      )
   );
 
   elements.pageStage.addEventListener(
     "click",
     (event) => {
-      const imageTrigger = event.target.closest(
-        "[data-enlarge-image]"
-      );
+      const imageTrigger =
+        event.target.closest(
+          "[data-enlarge-image]"
+        );
 
       if (imageTrigger) {
         openImageViewer(imageTrigger);
         return;
       }
 
-      const button = event.target.closest(
-        "[data-category-index]"
-      );
+      const button =
+        event.target.closest(
+          "[data-category-index]"
+        );
 
       if (button) {
-        goTo(Number(button.dataset.categoryIndex));
+        goTo(
+          Number(
+            button.dataset.categoryIndex
+          )
+        );
       }
     }
   );
@@ -886,22 +1184,47 @@ function bindEvents() {
   elements.imageViewer.addEventListener(
     "click",
     (event) => {
-      if (event.target === elements.imageViewer) {
+      if (
+        event.target ===
+        elements.imageViewer
+      ) {
         closeImageViewer();
       }
     }
   );
 
+  elements.backToTop.addEventListener(
+    "click",
+    () => {
+      window.scrollTo({
+        top: 0,
+        behavior:
+          reducedMotion.matches
+            ? "auto"
+            : "smooth",
+      });
+    }
+  );
+
+  window.addEventListener(
+    "scroll",
+    updateBackToTop,
+    { passive: true }
+  );
+
   elements.searchResults.addEventListener(
     "click",
     (event) => {
-      const button = event.target.closest(
-        "[data-search-index]"
-      );
+      const button =
+        event.target.closest(
+          "[data-search-index]"
+        );
 
       if (button) {
         chooseSearchMatch(
-          Number(button.dataset.searchIndex)
+          Number(
+            button.dataset.searchIndex
+          )
         );
       }
     }
@@ -910,7 +1233,10 @@ function bindEvents() {
   elements.searchOverlay.addEventListener(
     "click",
     (event) => {
-      if (event.target === elements.searchOverlay) {
+      if (
+        event.target ===
+        elements.searchOverlay
+      ) {
         closeSearch();
       }
     }
@@ -920,14 +1246,17 @@ function bindEvents() {
     "touchstart",
     (event) => {
       if (
-        event.target.closest("button, input, a") ||
+        event.target.closest(
+          "button, input, a"
+        ) ||
         state.searchOpen ||
         state.imageOpen
       ) {
         return;
       }
 
-      const touch = event.touches[0];
+      const touch =
+        event.touches[0];
 
       state.touchStart = {
         x: touch.clientX,
@@ -942,19 +1271,21 @@ function bindEvents() {
     (event) => {
       if (
         !state.touchStart ||
-        state.searchOpen ||
-        state.imageOpen
+        state.searchOpen
       ) {
         return;
       }
 
-      const touch = event.changedTouches[0];
+      const touch =
+        event.changedTouches[0];
 
       const dx =
-        touch.clientX - state.touchStart.x;
+        touch.clientX -
+        state.touchStart.x;
 
       const dy =
-        touch.clientY - state.touchStart.y;
+        touch.clientY -
+        state.touchStart.y;
 
       state.touchStart = null;
 
@@ -1002,12 +1333,20 @@ function bindEvents() {
         return;
       }
 
-      if (event.key === "ArrowRight") {
-        goTo(state.currentIndex + 1);
+      if (
+        event.key === "ArrowRight"
+      ) {
+        goTo(
+          state.currentIndex + 1
+        );
       }
 
-      if (event.key === "ArrowLeft") {
-        goTo(state.currentIndex - 1);
+      if (
+        event.key === "ArrowLeft"
+      ) {
+        goTo(
+          state.currentIndex - 1
+        );
       }
     }
   );
@@ -1026,10 +1365,13 @@ async function loadMenu() {
       );
     }
 
-    const menu = await response.json();
+    const menu =
+      await response.json();
 
     if (
-      !Array.isArray(menu.categories) ||
+      !Array.isArray(
+        menu.categories
+      ) ||
       !menu.categories.length
     ) {
       throw new Error(
@@ -1047,10 +1389,11 @@ async function loadMenu() {
 
     elements.pageStage.innerHTML = `
       <p class="error-state">
-        The menu could not load. If you opened
-        index.html directly, run it through GitHub
-        Pages, Cloudflare Pages or a local web server
-        so menu.json can be read.
+        The menu could not load. If you
+        opened index.html directly, run
+        it through GitHub Pages,
+        Cloudflare Pages or a local web
+        server so menu.json can be read.
       </p>
     `;
 
@@ -1063,6 +1406,7 @@ async function init() {
 
   setupOptionalImages();
   setupImageViewer();
+  setupBackToTop();
   bindEvents();
 
   await loadMenu();
@@ -1081,5 +1425,5 @@ async function init() {
       );
   }
 }
- 
+
 init();
