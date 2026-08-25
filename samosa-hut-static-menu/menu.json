@@ -13,16 +13,16 @@
       "eyebrow": "Samosa Hut favourites",
       "description": "Street-food favourites, loaded and remixed with your choice of signature flavour.",
       "items": [
-        { "name": "Loaded Naan Taco", "price": "$10.95", "accent": "House favourite", "imageSlot": true, "image": "images/taco-pv.png" },
-        { "name": "Kothu Roti", "options": [{ "label": "Veggie", "price": "$15.95" }, { "label": "Chicken", "price": "$16.95" }, { "label": "Mutton", "price": "$19.95" }], "note": "Upgrade to large for $3", "imageSlot": true,  "image": "images/kothu-pv.png" },
-        { "name": "Shawarma Pocket", "price": "$10.95", "imageSlot": true, "image": "images/shawarma-pocket-pv.png" },
-        { "name": "Fusion Panzo", "price": "$11.95", "imageSlot": true, "image": "images/panzo-pv.png" },
-        { "name": "Loaded Wrap", "price": "$10.95", "imageSlot": true, "image": "images/fusion-wrap-pv.png" },
-        { "name": "Loaded Samosa Bowl", "price": "$11.95", "imageSlot": true, "image": "images/samosa-bowl-pv.png" },
-        { "name": "Loaded Fries", "options": [{ "label": "Regular", "price": "$12.95" }, { "label": "Large", "price": "$19.95" }], "imageSlot": true, "image": "images/loaded-fries-pv.png" },
-        { "name": "Samosa Chaat", "options": [{ "label": "Veg", "price": "$10.95" }, { "label": "Non-veg", "price": "$14.95" }], "imageSlot": true, "image": "images/chaat-pv.png" },
-        { "name": "Fusion Biryani", "options": [{ "label": "Veggie", "price": "$15.95" }, { "label": "Chicken", "price": "$16.95" }, { "label": "Mutton", "price": "$19.95" }], "imageSlot": true, "image": "images/biryani-pv.png" },
-        { "name": "Fusion Shawarma Bowl", "price": "$15.95", "imageSlot": true, "image": "images/shawarma-bowl-pv.png" }
+        { "name": "Loaded Naan Taco", "price": "$10.95", "accent": "House favourite", "imageSlot": true, "image": "" },
+        { "name": "Kothu Roti", "options": [{ "label": "Veggie", "price": "$15.95" }, { "label": "Chicken", "price": "$16.95" }, { "label": "Mutton", "price": "$19.95" }], "note": "Upgrade to large for $3", "imageSlot": true, "image": "" },
+        { "name": "Shawarma Pocket", "price": "$10.95", "imageSlot": true, "image": "" },
+        { "name": "Fusion Panzo", "price": "$11.95", "imageSlot": true, "image": "" },
+        { "name": "Loaded Wrap", "price": "$10.95", "imageSlot": true, "image": "" },
+        { "name": "Loaded Samosa Bowl", "price": "$11.95", "imageSlot": true, "image": "" },
+        { "name": "Loaded Fries", "options": [{ "label": "Regular", "price": "$12.95" }, { "label": "Large", "price": "$19.95" }], "imageSlot": true, "image": "" },
+        { "name": "Samosa Chaat", "options": [{ "label": "Veg", "price": "$10.95" }, { "label": "Non-veg", "price": "$14.95" }], "imageSlot": true, "image": "" },
+        { "name": "Fusion Biryani", "options": [{ "label": "Veggie", "price": "$15.95" }, { "label": "Chicken", "price": "$16.95" }, { "label": "Mutton", "price": "$19.95" }], "imageSlot": true, "image": "" },
+        { "name": "Fusion Shawarma Bowl", "price": "$15.95", "imageSlot": true, "image": "" }
       ],
       "flavourGuide": {
         "title": "Choose your Flavour",
@@ -40,8 +40,8 @@
       "items": [
         { "name": "Potato & Veggie Samosas", "options": [{ "label": "3 pcs", "price": "$1.85" }, { "label": "25 pcs", "price": "$14.85" }, { "label": "50 pcs", "price": "$27.85" }, { "label": "75 pcs", "price": "$41.85" }, { "label": "100 pcs", "price": "$52.85" }], "accent": "Classic", "imageSlot": true, "image": "" },
         { "name": "Signature Samosas Deals", "options": [{ "label": "2 pcs", "price": "$2.85" }, { "label": "12 pcs", "price": "$15.85" }, { "label": "25 pcs", "price": "$28.85" }, { "label": "50 pcs", "price": "$55.85" }, { "label": "75 pcs", "price": "$82.85" }, { "label": "100 pcs", "price": "$105.85" }], "accent": "7 flavours" },
-        { "name": "Sauces", "options": [{ "label": "Small", "price": "$1.75" }, { "label": "Large", "price": "$4.75" }], "choices": ["Sweet Tamarind", "Spicy Cilantro", "Garlic Cilantro", "Mango-Pineapple Habanero", "Signature Garlic", "Spicy Garlic", "Devil Sauce"] },
-        { "name": "Signature Flavours", "choices": ["Butter Chicken", "Devil Chili Chicken", "Mango Jerk Chicken", "Spicy Goat", "Beef", "Chickpea & Tamarind", "Spinach & Cheese"] }
+        { "name": "Signature Flavours", "choices": ["Butter Chicken", "Devil Chili Chicken", "Mango Jerk Chicken", "Spicy Goat", "Beef", "Chickpea & Tamarind", "Spinach & Cheese"] },
+        { "name": "Sauces", "options": [{ "label": "Small", "price": "$1.75" }, { "label": "Large", "price": "$4.75" }], "choices": ["Sweet Tamarind", "Spicy Cilantro", "Garlic Cilantro", "Mango-Pineapple Habanero", "Signature Garlic", "Spicy Garlic", "Devil Sauce"] }
       ]
     },
     {
