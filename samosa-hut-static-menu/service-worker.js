@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "samosa-hut-menu-v2";
+const CACHE_NAME = "samosa-hut-menu-v3";
 
 const CORE_FILES = [
   "./",
@@ -13,7 +13,8 @@ const CORE_FILES = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
+    caches
+      .open(CACHE_NAME)
       .then((cache) => cache.addAll(CORE_FILES))
       .then(() => self.skipWaiting())
   );
@@ -21,7 +22,8 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys()
+    caches
+      .keys()
       .then((keys) =>
         Promise.all(
           keys
@@ -58,9 +60,9 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() =>
-          caches.match(request).then(
-            (cached) => cached || caches.match("./index.html")
-          )
+          caches
+            .match(request)
+            .then((cached) => cached || caches.match("./index.html"))
         )
     );
 
