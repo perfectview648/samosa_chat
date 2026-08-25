@@ -10,7 +10,7 @@ const state = {
   searchMatches: [],
   touchStart: null,
 };
-
+ 
 const elements = {
   app: document.querySelector("#app"),
   cover: document.querySelector("#cover"),
