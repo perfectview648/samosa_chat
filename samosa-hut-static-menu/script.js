@@ -147,6 +147,7 @@ function renderItem(category, item, index) {
         </div>
         ${renderChoices(item)}
         ${!item.choices?.length && item.note ? `<p>${escapeHTML(item.note)}</p>` : ""}
+        ${item.allergyWarning ? `<p class="item-allergy-note"><strong>Allergy warning:</strong> ${escapeHTML(item.allergyWarning)}</p>` : ""}
       </div>
     </article>
   `;
@@ -164,7 +165,7 @@ function renderFlavourGuide(guide) {
         <h3>${escapeHTML(finalWord)}</h3>
         <small>${escapeHTML(guide.note)}</small>
       </div>
-      <span class="fusion-guide-arrow" aria-hidden="true">→</span>
+      <span class="fusion-guide-arrow" aria-hidden="true">â†’</span>
       <ul>${guide.choices.map((choice) => `<li>${escapeHTML(choice)}</li>`).join("")}</ul>
     </section>
   `;
@@ -199,7 +200,7 @@ function renderCategories() {
               <b>${escapeHTML(category.name)}</b>
               <small>${escapeHTML(category.description)}</small>
             </span>
-            <span class="category-arrow" aria-hidden="true">↗</span>
+            <span class="category-arrow" aria-hidden="true">â†—</span>
           </button>
         `).join("")}
       </div>
@@ -367,7 +368,7 @@ function renderSearchResults(query) {
   }
 
   if (!state.searchMatches.length) {
-    elements.searchResults.innerHTML = `<p class="search-state">No menu items found for “${escapeHTML(query)}”.</p>`;
+    elements.searchResults.innerHTML = `<p class="search-state">No menu items found for â€œ${escapeHTML(query)}â€.</p>`;
     return;
   }
 
