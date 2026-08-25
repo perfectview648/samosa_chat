@@ -1,0 +1,10 @@
+{
+  "name": "Samosa Hut Digital Menu",
+  "short_name": "Samosa Hut",
+  "description": "Samosa Hut's mobile-friendly digital menu.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080908",
+  "theme_color": "#080908"
+}

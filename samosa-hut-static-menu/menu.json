@@ -1,0 +1,165 @@
+{
+  "restaurant": {
+    "name": "Samosa Hut",
+    "location": "Ajax · Ontario",
+    "tagline": "Fusion street food & signature samosas"
+  },
+  "categories": [
+    {
+      "id": "signature-fusion",
+      "number": "01",
+      "name": "Signature Fusion",
+      "shortName": "Fusion",
+      "eyebrow": "Samosa Hut favourites",
+      "description": "Street-food favourites, loaded and remixed with your choice of signature flavour.",
+      "items": [
+        { "name": "Loaded Naan Taco", "price": "$10.95", "accent": "House favourite", "imageSlot": true, "image": "" },
+        { "name": "Kothu Roti", "options": [{ "label": "Veggie", "price": "$15.95" }, { "label": "Chicken", "price": "$16.95" }, { "label": "Mutton", "price": "$19.95" }], "note": "Upgrade to large for $3", "imageSlot": true, "image": "" },
+        { "name": "Shawarma Pocket", "price": "$10.95", "imageSlot": true, "image": "" },
+        { "name": "Fusion Panzo", "price": "$11.95", "imageSlot": true, "image": "" },
+        { "name": "Loaded Wrap", "price": "$10.95", "imageSlot": true, "image": "" },
+        { "name": "Loaded Samosa Bowl", "price": "$11.95", "imageSlot": true, "image": "" },
+        { "name": "Loaded Fries", "options": [{ "label": "Regular", "price": "$12.95" }, { "label": "Large", "price": "$19.95" }], "imageSlot": true, "image": "" },
+        { "name": "Samosa Chaat", "options": [{ "label": "Veg", "price": "$10.95" }, { "label": "Non-veg", "price": "$14.95" }], "imageSlot": true, "image": "" },
+        { "name": "Fusion Biryani", "options": [{ "label": "Veggie", "price": "$15.95" }, { "label": "Chicken", "price": "$16.95" }, { "label": "Mutton", "price": "$19.95" }], "imageSlot": true, "image": "" },
+        { "name": "Fusion Shawarma Bowl", "price": "$15.95", "imageSlot": true, "image": "" }
+      ],
+      "flavourGuide": {
+        "title": "Choose your Flavour",
+        "note": "All Fusion items include toppings & sauces at no extra charge.",
+        "choices": ["Butter Chicken", "Tandoori Fried Chicken", "Devil Chili Chicken", "Chicken Curry", "Spicy Mutton (Extra $)", "Mango-Pineapple Habanero Chicken", "Chickpea Masala", "Tandoori Pakoda", "Sweet Caramelized Eggplant", "Lentil Curry"]
+      }
+    },
+    {
+      "id": "samosas",
+      "number": "02",
+      "name": "Samosa Menu",
+      "shortName": "Samosas",
+      "eyebrow": "Fresh, crisp, made to share",
+      "description": "Classic potato and veggie samosas, plus Samosa Hut's signature filled collection.",
+      "items": [
+        { "name": "Potato & Veggie Samosas", "options": [{ "label": "3 pcs", "price": "$1.85" }, { "label": "25 pcs", "price": "$14.85" }, { "label": "50 pcs", "price": "$27.85" }, { "label": "75 pcs", "price": "$41.85" }, { "label": "100 pcs", "price": "$52.85" }], "accent": "Classic", "imageSlot": true, "image": "" },
+        { "name": "Signature Samosas Deals", "options": [{ "label": "2 pcs", "price": "$2.85" }, { "label": "12 pcs", "price": "$15.85" }, { "label": "25 pcs", "price": "$28.85" }, { "label": "50 pcs", "price": "$55.85" }, { "label": "75 pcs", "price": "$82.85" }, { "label": "100 pcs", "price": "$105.85" }], "accent": "7 flavours" },
+        { "name": "Sauces", "options": [{ "label": "Small", "price": "$1.75" }, { "label": "Large", "price": "$4.75" }], "choices": ["Sweet Tamarind", "Spicy Cilantro", "Garlic Cilantro", "Mango-Pineapple Habanero", "Signature Garlic", "Spicy Garlic", "Devil Sauce"] },
+        { "name": "Signature Flavours", "choices": ["Butter Chicken", "Devil Chili Chicken", "Mango Jerk Chicken", "Spicy Goat", "Beef", "Chickpea & Tamarind", "Spinach & Cheese"] }
+      ]
+    },
+    {
+      "id": "kothu-biryani",
+      "number": "03",
+      "name": "Kothu Roti & Fusion Biryani",
+      "shortName": "Kothu & Biryani",
+      "eyebrow": "Bold fusion bowls",
+      "description": "Choose a base, then match it with one of Samosa Hut's signature flavours.",
+      "items": [
+        { "name": "Spicy Veggie", "price": "$15.95" },
+        { "name": "Chicken Curry", "price": "$16.95" },
+        { "name": "Mutton", "price": "$19.95" },
+        { "name": "Mango-Pineapple Chicken", "price": "$16.95" },
+        { "name": "Butter Chicken", "price": "$16.95", "accent": "Popular" },
+        { "name": "Devil Chili Chicken", "price": "$16.95", "accent": "Spicy" }
+      ]
+    },
+    {
+      "id": "flavours",
+      "number": "04",
+      "name": "Flavours",
+      "shortName": "Flavours",
+      "eyebrow": "Build your own combination",
+      "description": "Order a small or large portion of your favourite signature filling.",
+      "items": [
+        { "name": "Butter Chicken", "options": [{ "label": "Small", "price": "$8.95" }, { "label": "Large", "price": "$13.95" }], "accent": "Popular" },
+        { "name": "Tandoori Fried Chicken", "options": [{ "label": "Small", "price": "$8.95" }, { "label": "Large", "price": "$13.95" }] },
+        { "name": "Devil Chili Chicken", "options": [{ "label": "Small", "price": "$8.95" }, { "label": "Large", "price": "$13.95" }], "accent": "Spicy" },
+        { "name": "Chicken Curry", "options": [{ "label": "Small", "price": "$8.95" }, { "label": "Large", "price": "$13.95" }] },
+        { "name": "Spicy Mutton", "options": [{ "label": "Small", "price": "$10.95" }, { "label": "Large", "price": "$16.95" }], "accent": "Spicy" },
+        { "name": "Mango-Pineapple Habanero Chicken", "options": [{ "label": "Small", "price": "$8.95" }, { "label": "Large", "price": "$13.95" }] },
+        { "name": "Chickpea Masala", "options": [{ "label": "Small", "price": "$6.95" }, { "label": "Large", "price": "$8.95" }] },
+        { "name": "Tandoori Pakoda", "options": [{ "label": "Small", "price": "$6.95" }, { "label": "Large", "price": "$8.95" }] },
+        { "name": "Caramelized Eggplant", "options": [{ "label": "Small", "price": "$6.95" }, { "label": "Large", "price": "$8.95" }] },
+        { "name": "Lentil Curry", "options": [{ "label": "Small", "price": "$6.95" }, { "label": "Large", "price": "$8.95" }] }
+      ]
+    },
+    {
+      "id": "appetizers",
+      "number": "05",
+      "name": "Appetizers",
+      "shortName": "Appetizers",
+      "eyebrow": "Start with something crisp",
+      "description": "Quick savoury bites that are easy to add, share, or enjoy on their own.",
+      "items": [
+        { "name": "Veggie Spring Roll", "price": "$0.75" },
+        { "name": "Spicy Mutton Roll", "price": "$3.85", "accent": "Spicy" },
+        { "name": "Butter Chicken Roll", "price": "$3.50" },
+        { "name": "Beef Patty", "price": "$3.95" },
+        { "name": "Chicken Patty", "price": "$3.95" }
+      ]
+    },
+    {
+      "id": "sides",
+      "number": "06",
+      "name": "Sides",
+      "shortName": "Sides",
+      "eyebrow": "Complete your meal",
+      "description": "Rice and roti sides in three sizes for solo meals or sharing.",
+      "items": [
+        { "name": "Yellow Rice", "options": [{ "label": "Small", "price": "$4.85" }, { "label": "Medium", "price": "$6.85" }, { "label": "Large", "price": "$9.85" }] },
+        { "name": "Garlic Roti Stir-Fry", "options": [{ "label": "Small", "price": "$5.85" }, { "label": "Medium", "price": "$8.85" }, { "label": "Large", "price": "$12.85" }] },
+        { "name": "Garlic Cilantro Rice", "options": [{ "label": "Small", "price": "$5.85" }, { "label": "Medium", "price": "$8.85" }, { "label": "Large", "price": "$12.85" }] }
+      ]
+    },
+    {
+      "id": "drinks",
+      "number": "07",
+      "name": "Drinks",
+      "shortName": "Drinks",
+      "eyebrow": "Cool down or warm up",
+      "description": "Simple refreshments plus two favourites that pair perfectly with spice.",
+      "items": [
+        { "name": "Water", "price": "$1.65" },
+        { "name": "Pop", "price": "$2.50" },
+        { "name": "Mango Shake", "price": "$6.00", "accent": "Favourite" },
+        { "name": "Masala Chai", "price": "$3.00" }
+      ]
+    },
+    {
+      "id": "menu-daily-specials",
+      "number": "08",
+      "name": "Daily Menu Specials",
+      "shortName": "Menu Specials",
+      "eyebrow": "A different favourite every day",
+      "description": "Seven rotating meal deals from the Samosa Hut fusion menu.",
+      "items": [
+        { "name": "Monday", "price": "$9.99", "note": "Loaded Samosa Bowl + Pop", "imageSlot": true, "image": "" },
+        { "name": "Tuesday", "price": "$9.99", "note": "Naan Taco + Pop", "imageSlot": true, "image": "" },
+        { "name": "Wednesday", "price": "$9.99", "note": "Loaded Fusion Wrap + Pop", "imageSlot": true, "image": "" },
+        { "name": "Thursday", "price": "$9.99", "note": "Fusion Shawarma Pocket + Pop", "imageSlot": true, "image": "" },
+        { "name": "Friday", "price": "$10.99", "note": "Fusion Panzo + Pop", "imageSlot": true, "image": "" },
+        { "name": "Saturday", "price": "$13.99", "note": "Fusion Shawarma Plate + Pop", "imageSlot": true, "image": "" },
+        { "name": "Sunday", "price": "$10.99", "note": "Samosa Chaat + Pop · Any protein or veggie", "imageSlot": true, "image": "" }
+      ],
+      "footnote": "All specials include pop. Prices are exclusive of tax."
+    },
+    {
+      "id": "samosa-daily-specials",
+      "number": "09",
+      "name": "Daily Samosa Specials",
+      "shortName": "Samosa Specials",
+      "eyebrow": "A fresh samosa deal every day",
+      "description": "Seven daily samosa offers, each served with sauce and pop.",
+      "items": [
+        { "name": "Monday", "price": "$6.99", "note": "10 Potato & Veggie Samosas" },
+        { "name": "Tuesday", "price": "$9.99", "note": "10 Butter Chicken Samosas" },
+        { "name": "Wednesday", "price": "$9.99", "note": "10 Mango Jerk Chicken Samosas" },
+        { "name": "Thursday", "price": "$9.99", "note": "10 Beef Samosas" },
+        { "name": "Friday", "price": "$9.99", "note": "10 Devil Chilli Chicken Samosas" },
+        { "name": "Saturday", "price": "$9.99", "note": "10 Chickpea & Tamarind Samosas" },
+        { "name": "Sunday", "price": "$10.99", "note": "10 Mix & Match Samosas" }
+      ],
+      "specialNotice": {
+        "primary": ["All specials come with sauce + pop", "All prices are exclusive of tax"],
+        "secondary": "Limit 1 order per customer. Walk-in only"
+      }
+    }
+  ]
+}
