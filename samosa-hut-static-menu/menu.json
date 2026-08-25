@@ -130,13 +130,13 @@
       "eyebrow": "A different favourite every day",
       "description": "Seven rotating meal deals from the Samosa Hut fusion menu.",
       "items": [
-        { "name": "Monday", "price": "$9.99", "note": "Loaded Samosa Bowl + Pop", "imageSlot": true, "image": "" },
-        { "name": "Tuesday", "price": "$9.99", "note": "Naan Taco + Pop", "imageSlot": true, "image": "" },
-        { "name": "Wednesday", "price": "$9.99", "note": "Loaded Fusion Wrap + Pop", "imageSlot": true, "image": "" },
-        { "name": "Thursday", "price": "$9.99", "note": "Fusion Shawarma Pocket + Pop", "imageSlot": true, "image": "" },
-        { "name": "Friday", "price": "$10.99", "note": "Fusion Panzo + Pop", "imageSlot": true, "image": "" },
-        { "name": "Saturday", "price": "$13.99", "note": "Fusion Shawarma Plate + Pop", "imageSlot": true, "image": "" },
-        { "name": "Sunday", "price": "$10.99", "note": "Samosa Chaat + Pop · Any protein or veggie", "imageSlot": true, "image": "", "allergyWarning": "May contain peanuts." }
+        { "name": "Monday", "price": "$9.99", "note": "Loaded Samosa Bowl + Pop", "imageSlot": true, "image": "images/samosa-bowl-pv.png" },
+        { "name": "Tuesday", "price": "$9.99", "note": "Naan Taco + Pop", "imageSlot": true, "image": "images/naan-taco-pv.png" },
+        { "name": "Wednesday", "price": "$9.99", "note": "Loaded Fusion Wrap + Pop", "imageSlot": true, "image": "images/fusion-wrap-pv.png" },
+        { "name": "Thursday", "price": "$9.99", "note": "Fusion Shawarma Pocket + Pop", "imageSlot": true, "image": "images/shawarma-pocket-pv.png" },
+        { "name": "Friday", "price": "$10.99", "note": "Fusion Panzo + Pop", "imageSlot": true, "image": "images/panzo-pv.png" },
+        { "name": "Saturday", "price": "$13.99", "note": "Fusion Shawarma Plate + Pop", "imageSlot": true, "image": "images/shawarma-bowl-pv.png" },
+        { "name": "Sunday", "price": "$10.99", "note": "Samosa Chaat + Pop · Any protein or veggie", "imageSlot": true, "image": "images/chaat-pv.png", "allergyWarning": "May contain peanuts." }
       ],
       "footnote": "All specials include pop. Prices are exclusive of tax."
     },
