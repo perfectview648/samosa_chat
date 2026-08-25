@@ -13,16 +13,16 @@
       "eyebrow": "Samosa Hut favourites",
       "description": "Street-food favourites, loaded and remixed with your choice of signature flavour.",
       "items": [
-        { "name": "Loaded Naan Taco", "price": "$10.95", "accent": "House favourite", "imageSlot": true, "image": "images/loaded-naan-taco.webp" },
+        { "name": "Loaded Naan Taco", "price": "$10.95", "accent": "House favourite", "imageSlot": true, "image": "images/naan-taco-pv.png" },
         { "name": "Kothu Roti", "options": [{ "label": "Veggie", "price": "$15.95" }, { "label": "Chicken", "price": "$16.95" }, { "label": "Mutton", "price": "$19.95" }], "note": "Upgrade to large for $3", "imageSlot": true, "image": "image": "images/kothu-roti.webp" },
-        { "name": "Shawarma Pocket", "price": "$10.95", "imageSlot": true, "image": "images/shawarma-pocket.webp" },
-        { "name": "Fusion Panzo", "price": "$11.95", "imageSlot": true, "image": "images/fusion-panzo.webp" },
-        { "name": "Loaded Wrap", "price": "$10.95", "imageSlot": true, "image": "images/loaded-wrap.webp" },
-        { "name": "Loaded Samosa Bowl", "price": "$11.95", "imageSlot": true, "image": "images/loaded-samosa-bowl.webp" },
-        { "name": "Loaded Fries", "options": [{ "label": "Regular", "price": "$12.95" }, { "label": "Large", "price": "$19.95" }], "imageSlot": true, "image": "" },
-        { "name": "Samosa Chaat", "options": [{ "label": "Veg", "price": "$10.95" }, { "label": "Non-veg", "price": "$14.95" }], "imageSlot": true, "image": "" },
-        { "name": "Fusion Biryani", "options": [{ "label": "Veggie", "price": "$15.95" }, { "label": "Chicken", "price": "$16.95" }, { "label": "Mutton", "price": "$19.95" }], "imageSlot": true, "image": "" },
-        { "name": "Fusion Shawarma Bowl", "price": "$15.95", "imageSlot": true, "image": "" }
+        { "name": "Shawarma Pocket", "price": "$10.95", "imageSlot": true, "image": "images/shawarma-pocket-pv.png" },
+        { "name": "Fusion Panzo", "price": "$11.95", "imageSlot": true, "image": "images/panzo-pv.png" },
+        { "name": "Loaded Wrap", "price": "$10.95", "imageSlot": true, "image": "images/fusion-wrap-pv.png" },
+        { "name": "Loaded Samosa Bowl", "price": "$11.95", "imageSlot": true, "image": "images/samosa-bowl-pv.png" },
+        { "name": "Loaded Fries", "options": [{ "label": "Regular", "price": "$12.95" }, { "label": "Large", "price": "$19.95" }], "imageSlot": true, "image": "images/samosa-bowl-pv.png" },
+        { "name": "Samosa Chaat", "options": [{ "label": "Veg", "price": "$10.95" }, { "label": "Non-veg", "price": "$14.95" }], "imageSlot": true, "image": "images/chaat-pv.png" },
+        { "name": "Fusion Biryani", "options": [{ "label": "Veggie", "price": "$15.95" }, { "label": "Chicken", "price": "$16.95" }, { "label": "Mutton", "price": "$19.95" }], "imageSlot": true, "image": "images/biryani-pv.png" },
+        { "name": "Fusion Shawarma Bowl", "price": "$15.95", "imageSlot": true, "image": "images/shawarma-bowl-pv.png" }
       ],
       "flavourGuide": {
         "title": "Choose your Flavour",
