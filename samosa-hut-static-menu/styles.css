@@ -61,10 +61,14 @@ img { display: block; max-width: 100%; }
   overflow-y: auto;
   padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
   background: #090a09;
+  backface-visibility: hidden;
+  overscroll-behavior: contain;
+  transform: translate3d(0,0,0);
   transition: opacity 380ms ease, transform 540ms cubic-bezier(.65,0,.22,1);
+  will-change: transform, opacity;
 }
 
-.is-open .cover { opacity: 0; transform: translate3d(-100%,0,0); pointer-events: none; }
+.is-open .cover { opacity: 0; transform: translate3d(-102%,0,0); pointer-events: none; }
 
 .cover-board {
   position: relative;
@@ -85,6 +89,8 @@ img { display: block; max-width: 100%; }
     linear-gradient(90deg, rgba(118,18,29,.055), transparent 18%, transparent 82%, rgba(118,18,29,.055)),
     radial-gradient(ellipse at top, #26251f 0, #121311 55%, #080908 100%);
   box-shadow: 0 30px 80px rgba(0,0,0,.72), 0 0 0 4px rgba(64,10,16,.42), 0 0 0 5px rgba(213,154,45,.2), inset 0 0 80px rgba(0,0,0,.58);
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .cover-board::before,
@@ -130,7 +136,7 @@ img { display: block; max-width: 100%; }
 .open-button b { position: absolute; right: 18px; display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid rgba(0,0,0,.35); border-radius: 50%; font-size: 18px; }
 
 /* Header and pages */
-.book-shell { min-height: 100vh; min-height: 100dvh; padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px)); opacity: 0; transition: opacity 300ms ease 220ms; }
+.book-shell { min-height: 100vh; min-height: 100dvh; padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px)); opacity: 0; backface-visibility: hidden; transform: translateZ(0); transition: opacity 300ms ease 220ms; will-change: opacity; }
 .is-open .book-shell { opacity: 1; }
 
 .topbar { position: sticky; top: 0; z-index: 20; height: calc(62px + env(safe-area-inset-top, 0px)); display: flex; align-items: center; justify-content: space-between; padding: calc(6px + env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) 6px max(12px, env(safe-area-inset-left, 0px)); border-bottom: 1px solid rgba(244,189,61,.22); background: rgba(8,9,8,.92); backdrop-filter: blur(14px); }
@@ -242,6 +248,14 @@ img { display: block; max-width: 100%; }
 .error-state { max-width: 520px; margin: 40px auto; padding: 20px; color: var(--chalk); border: 1px solid rgba(217,14,43,.5); background: rgba(217,14,43,.08); line-height: 1.6; text-align: center; }
 
 @media (max-width: 700px) {
+  .cover {
+    transition: transform 480ms cubic-bezier(.22,.8,.2,1), opacity 330ms ease;
+  }
+
+  .book-shell {
+    transition: opacity 260ms ease 120ms;
+  }
+
   .menu-app {
     background:
       radial-gradient(ellipse at 50% -5%, rgba(155,35,40,.14), transparent 42%),
