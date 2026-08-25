@@ -10,7 +10,7 @@ const CORE_FILES = [
   "./menu.json",
   "./manifest.webmanifest"
 ];
-
+ 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
