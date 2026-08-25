@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "samosa-hut-menu-v3";
+const CACHE_NAME = "samosa-hut-menu-v5";
 
 const CORE_FILES = [
   "./",
@@ -44,8 +44,11 @@ self.addEventListener("fetch", (event) => {
 
   if (url.origin !== self.location.origin) return;
 
-  const isMenuData = url.pathname.endsWith("/menu.json");
-  const isNavigation = request.mode === "navigate";
+  const isMenuData =
+    url.pathname.endsWith("/menu.json");
+
+  const isNavigation =
+    request.mode === "navigate";
 
   if (isMenuData || isNavigation) {
     event.respondWith(
@@ -53,16 +56,22 @@ self.addEventListener("fetch", (event) => {
         .then((response) => {
           const copy = response.clone();
 
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, copy);
-          });
+          caches
+            .open(CACHE_NAME)
+            .then((cache) =>
+              cache.put(request, copy)
+            );
 
           return response;
         })
         .catch(() =>
           caches
             .match(request)
-            .then((cached) => cached || caches.match("./index.html"))
+            .then(
+              (cached) =>
+                cached ||
+                caches.match("./index.html")
+            )
         )
     );
 
@@ -70,22 +79,31 @@ self.addEventListener("fetch", (event) => {
   }
 
   event.respondWith(
-    caches.match(request).then((cached) => {
-      if (cached) return cached;
+    caches
+      .match(request)
+      .then((cached) => {
+        if (cached) return cached;
 
-      return fetch(request).then((response) => {
-        if (!response || response.status !== 200) {
-          return response;
-        }
+        return fetch(request).then(
+          (response) => {
+            if (
+              !response ||
+              response.status !== 200
+            ) {
+              return response;
+            }
 
-        const copy = response.clone();
+            const copy = response.clone();
 
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(request, copy);
-        });
+            caches
+              .open(CACHE_NAME)
+              .then((cache) =>
+                cache.put(request, copy)
+              );
 
-        return response;
-      });
-    })
+            return response;
+          }
+        );
+      })
   );
 });
