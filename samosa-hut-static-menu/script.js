@@ -1080,6 +1080,6 @@ async function init() {
         )
       );
   }
-}
+} 
 
 init();
