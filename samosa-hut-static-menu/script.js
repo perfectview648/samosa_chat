@@ -1,6 +1,6 @@
 "use strict";
 
-const state = {
+const state = { 
   menu: null,
   currentIndex: -1,
   coverOpen: false,
