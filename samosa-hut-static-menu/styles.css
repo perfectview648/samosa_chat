@@ -163,9 +163,38 @@ img { display: block; max-width: 100%; }
 .category-copy { display: flex; flex-direction: column; gap: 5px; }
 .category-copy b { font-family: Georgia, serif; font-size: clamp(19px, 6vw, 24px); font-weight: 500; line-height: 1.08; }
 .category-copy small { color: var(--muted); font-size: 11px; line-height: 1.35; }
-.category-arrow { position: relative; width: 18px; height: 18px; color: transparent; font-size: 0; }
-.category-arrow::before { content: ""; position: absolute; left: 3px; top: 9px; width: 12px; height: 1px; background: var(--gold); transform: rotate(-45deg); transform-origin: right center; }
-.category-arrow::after { content: ""; position: absolute; right: 1px; top: 1px; width: 7px; height: 7px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+.category-arrow {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  color: transparent;
+  font-size: 0;
+}
+
+.category-arrow::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  bottom: 4px;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold);
+  transform: rotate(-45deg);
+  transform-origin: left center;
+}
+
+.category-arrow::after {
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 3px;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid var(--gold);
+  border-right: 2px solid var(--gold);
+}
 .tax-note { margin: 18px 0 0; color: #85867e; font-size: 9px; font-weight: 800; letter-spacing: .11em; line-height: 1.5; text-align: center; text-transform: uppercase; }
 
 /* Menu cards */
