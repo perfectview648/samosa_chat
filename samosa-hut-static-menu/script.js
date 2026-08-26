@@ -10,7 +10,7 @@ const state = {
   searchMatches: [],
   touchStart: null,
 };
- 
+
 const elements = {
   app: document.querySelector("#app"),
   cover: document.querySelector("#cover"),
@@ -124,9 +124,10 @@ function renderImageSlot(item, index) {
 
   if (item.image) {
     const isInitiallyVisible = index < 2;
+    const thumbnail = item.thumbnail || item.image;
     return `
-      <button class="product-image-slot" type="button" data-enlarge-image aria-label="Enlarge image of ${escapeHTML(item.name)}">
-        <img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" width="800" height="800" loading="${isInitiallyVisible ? "eager" : "lazy"}" fetchpriority="${isInitiallyVisible ? "high" : "low"}" decoding="async">
+      <button class="product-image-slot" type="button" data-enlarge-image data-full-image="${escapeHTML(item.image)}" aria-label="Enlarge image of ${escapeHTML(item.name)}">
+        <img src="${escapeHTML(thumbnail)}" data-fallback-image="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" width="800" height="800" loading="${isInitiallyVisible ? "eager" : "lazy"}" fetchpriority="${isInitiallyVisible ? "high" : "low"}" decoding="async">
       </button>
     `;
   }
@@ -388,7 +389,7 @@ function openImageViewer(trigger) {
   if (!image) return;
   state.imageOpen = true;
   state.lastImageTrigger = trigger;
-  elements.imageViewerImage.src = image.currentSrc || image.src;
+  elements.imageViewerImage.src = trigger.dataset.fullImage || image.currentSrc || image.src;
   elements.imageViewerImage.alt = image.alt;
   elements.imageViewerCaption.textContent = image.alt;
   elements.imageViewer.classList.add("is-visible");
@@ -482,6 +483,13 @@ function bindEvents() {
     const button = event.target.closest("[data-category-index]");
     if (button) goTo(Number(button.dataset.categoryIndex));
   });
+
+  elements.pageStage.addEventListener("error", (event) => {
+    const image = event.target.closest?.("img[data-fallback-image]");
+    if (!image || image.dataset.fallbackUsed === "true") return;
+    image.dataset.fallbackUsed = "true";
+    image.src = image.dataset.fallbackImage;
+  }, true);
 
   elements.imageViewerClose.addEventListener("click", closeImageViewer);
   elements.imageViewer.addEventListener("click", (event) => {
