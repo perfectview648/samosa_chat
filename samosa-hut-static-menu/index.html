@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#080908">
   <meta name="description" content="Explore Samosa Hut's signature samosas, fusion street food, sides, drinks and daily specials.">
   <title>Samosa Hut Digital Menu</title>
-<link rel="stylesheet" href="styles.css?v=9">
-<script src="script.js?v=9" defer></script>
-  <script src="script.js" defer></script>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=9">
+  <script src="script.js?v=10" defer></script>
 </head>
 <body>
   <main id="app" class="menu-app">
@@ -17,13 +17,13 @@
         <div class="cover-rule" aria-hidden="true"></div>
 
         <div class="cover-brand optional-image" data-optional-image>
-          <img src="images/samosa-hut-header-logo.png" alt="Samosa Hut" data-image>
+          <img src="images/logo.png" alt="Samosa Hut" data-image>
           <div class="cover-brand-fallback" data-fallback>
             <span>Samosa</span>
             <b>Hut</b>
           </div>
         </div>
- 
+
         <div class="cover-copy">
           <p class="cover-kicker">Ajax · Ontario</p>
           <h1>Digital <span>Menu</span></h1>
@@ -40,20 +40,12 @@
 
     <div id="book-shell" class="book-shell" aria-hidden="true">
       <header class="topbar">
-<button id="brand-button" class="brand-button" type="button" aria-label="Return to the Samosa Hut menu cover">
-  <span class="header-logo optional-image" data-optional-image>
-    <img
-      src="images/samosa-hut-header-logo.png"
-      alt="Samosa Hut"
-      width="1536"
-      height="1024"
-      fetchpriority="high"
-      decoding="async"
-      data-image
-    >
-    <b class="header-logo-fallback" data-fallback>Samosa Hut</b>
-  </span>
-</button>
+        <button id="brand-button" class="brand-button" type="button" aria-label="Return to the Samosa Hut menu cover">
+          <span class="header-logo optional-image" data-optional-image>
+            <img src="images/samosa-hut-header-logo.png" alt="Samosa Hut" width="1536" height="1024" fetchpriority="high" decoding="async" data-image>
+            <b class="header-logo-fallback" data-fallback>Samosa Hut</b>
+          </span>
+        </button>
 
         <div class="topbar-actions">
           <button id="search-trigger" class="search-trigger" type="button" aria-label="Search the menu">⌕</button>
