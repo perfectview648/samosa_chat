@@ -125,9 +125,10 @@ function renderImageSlot(item, index) {
   if (item.image) {
     const isInitiallyVisible = index < 2;
     const thumbnail = item.thumbnail || item.image;
+    const shouldLoadImmediately = Boolean(item.thumbnail) || isInitiallyVisible;
     return `
       <button class="product-image-slot" type="button" data-enlarge-image data-full-image="${escapeHTML(item.image)}" aria-label="Enlarge image of ${escapeHTML(item.name)}">
-        <img src="${escapeHTML(thumbnail)}" data-fallback-image="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" width="800" height="800" loading="${isInitiallyVisible ? "eager" : "lazy"}" fetchpriority="${isInitiallyVisible ? "high" : "low"}" decoding="async">
+        <img src="${escapeHTML(thumbnail)}" data-fallback-image="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" width="360" height="360" loading="${shouldLoadImmediately ? "eager" : "lazy"}" fetchpriority="${isInitiallyVisible ? "high" : "auto"}" decoding="async">
       </button>
     `;
   }
