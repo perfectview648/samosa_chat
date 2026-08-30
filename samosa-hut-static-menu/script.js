@@ -1370,7 +1370,7 @@ function bindEvents() {
 
       goTo(
         state.currentIndex +
-          (dx > 0 ? 1 : -1),
+          (dx < 0 ? 1 : -1),
       );
     },
     {
