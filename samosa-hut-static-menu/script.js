@@ -929,39 +929,6 @@ function hideSwipeHint() {
   );
 }
 
-function showSwipeHintOnce() {
-  if (
-    !elements.swipeHint ||
-    state.swipeHintShown ||
-    !window.matchMedia("(max-width: 700px)").matches
-  ) {
-    return;
-  }
-
-  state.swipeHintShown = true;
-
-  elements.swipeHint.setAttribute(
-    "aria-hidden",
-    "false",
-  );
-
-  elements.swipeHint.classList.add(
-    "is-visible",
-  );
-
-  state.swipeHintTimer = window.setTimeout(() => {
-    elements.swipeHint.classList.remove(
-      "is-visible",
-    );
-
-    elements.swipeHint.setAttribute(
-      "aria-hidden",
-      "true",
-    );
-
-    state.swipeHintTimer = null;
-  }, 3000);
-}
 
 function updateBackToTop() {
   if (!elements.backToTop) return;
