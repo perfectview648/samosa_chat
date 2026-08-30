@@ -9,6 +9,8 @@ const state = {
   transitioning: false,
   searchMatches: [],
   touchStart: null,
+  swipeHintShown: false,
+  swipeHintTimer: null,
 };
 
 const elements = {
@@ -34,6 +36,9 @@ const reducedMotion = window.matchMedia(
 );
 
 const TORONTO_TIME_ZONE = "America/Toronto";
+
+const SWIPE_HINT_STORAGE_KEY =
+  "samosa-hut-swipe-hint-seen-v1";
 
 const DAILY_SPECIAL_CATEGORY_IDS = new Set([
   "menu-daily-specials",
@@ -869,6 +874,119 @@ function setupBackToTop() {
 
   elements.backToTop = button;
 }
+function setupSwipeHint() {
+  const hint = document.createElement("aside");
+
+  hint.className = "swipe-hint";
+  hint.setAttribute("role", "status");
+  hint.setAttribute("aria-live", "polite");
+  hint.setAttribute("aria-hidden", "true");
+
+  hint.innerHTML = `
+    <svg
+      class="swipe-hint-animation"
+      viewBox="0 0 76 34"
+      aria-hidden="true"
+    >
+      <path
+        class="swipe-hint-arrow"
+        d="M8 17H68M59 8L68 17L59 26"
+      ></path>
+
+      <circle
+        class="swipe-hint-dot"
+        cx="17"
+        cy="17"
+        r="7"
+      ></circle>
+    </svg>
+
+    <span class="swipe-hint-copy">
+      <strong>Swipe right</strong>
+      <small>Go to the next menu page</small>
+    </span>
+  `;
+
+  document.body.appendChild(hint);
+
+  elements.swipeHint = hint;
+}
+
+function hideSwipeHint() {
+  if (!elements.swipeHint) return;
+
+  window.clearTimeout(state.swipeHintTimer);
+
+  elements.swipeHint.classList.remove(
+    "is-visible",
+  );
+
+  elements.swipeHint.setAttribute(
+    "aria-hidden",
+    "true",
+  );
+}
+
+function showSwipeHintOnce() {
+  if (
+    !elements.swipeHint ||
+    !window.matchMedia("(max-width: 700px)").matches
+  ) {
+    return;
+  }
+
+  let alreadySeen = false;
+
+  try {
+    alreadySeen =
+      window.localStorage.getItem(
+        SWIPE_HINT_STORAGE_KEY,
+      ) === "true";
+  } catch (error) {
+    console.warn(
+      "Swipe hint storage is unavailable",
+      error,
+    );
+  }
+
+  if (alreadySeen || state.swipeHintShown) {
+    return;
+  }
+
+  state.swipeHintShown = true;
+
+  try {
+    window.localStorage.setItem(
+      SWIPE_HINT_STORAGE_KEY,
+      "true",
+    );
+  } catch (error) {
+    console.warn(
+      "Swipe hint could not be saved",
+      error,
+    );
+  }
+
+  elements.swipeHint.setAttribute(
+    "aria-hidden",
+    "false",
+  );
+
+  elements.swipeHint.classList.remove(
+    "is-visible",
+  );
+
+  void elements.swipeHint.offsetWidth;
+
+  elements.swipeHint.classList.add(
+    "is-visible",
+  );
+
+  state.swipeHintTimer = window.setTimeout(
+    hideSwipeHint,
+    3000,
+  );
+}
 
 function updateBackToTop() {
   if (!elements.backToTop) return;
@@ -1035,6 +1153,7 @@ async function chooseSearchMatch(index) {
   if (!match) return;
 
   closeSearch();
+  hideSwipeHint();
 
   await goTo(match.categoryIndex);
 
@@ -1120,14 +1239,10 @@ function bindEvents() {
         );
 
       if (categoryButton) {
-        goTo(
-          Number(
-            categoryButton.dataset.categoryIndex,
-          ),
-        );
-      }
-    },
-  );
+          goTo(Number(categoryButton.dataset.categoryIndex));
+          }
+        },
+      );
 
   elements.pageStage.addEventListener(
     "error",
@@ -1255,7 +1370,7 @@ function bindEvents() {
 
       goTo(
         state.currentIndex +
-          (dx < 0 ? 1 : -1),
+          (dx > 0 ? 1 : -1),
       );
     },
     {
@@ -1350,11 +1465,12 @@ async function loadMenu() {
 async function init() {
   elements.bookShell.inert = true;
 
-  setupOptionalImages();
-  setupImageViewer();
-  setupBackToTop();
-  bindEvents();
-
+    setupOptionalImages();
+    setupImageViewer();
+    setupBackToTop();
+    setupSwipeHint();
+    bindEvents();
+  
   await loadMenu();
 
   if (
