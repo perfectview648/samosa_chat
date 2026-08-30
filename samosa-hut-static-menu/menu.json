@@ -128,7 +128,7 @@
       "name": "Daily Menu Specials",
       "shortName": "Menu Specials",
       "eyebrow": "A different favourite every day",
-      "description": "Seven rotating meal deals from the Samosa Hut fusion menu.",
+      "description": "Seven delicious meal deals from the Samosa Hut fusion menu.",
       "items": [
         { "name": "Monday", "price": "$9.99", "note": "Loaded Samosa Bowl + Pop", "imageSlot": true, "thumbnail": "images/thumbnails/samosa-bowl-pv.webp", "image": "images/samosa-bowl-pv.png" },
         { "name": "Tuesday", "price": "$9.99", "note": "Naan Taco + Pop", "imageSlot": true, "thumbnail": "images/thumbnails/naan-taco-pv.webp", "image": "images/naan-taco-pv.png" },
