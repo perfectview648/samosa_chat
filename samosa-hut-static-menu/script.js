@@ -9,8 +9,7 @@ const state = {
   transitioning: false,
   searchMatches: [],
   touchStart: null,
-  swipeHintShown: false,
-  swipeHintTimer: null,
+
 };
 
 const elements = {
