@@ -10,6 +10,8 @@ const state = {
   searchMatches: [],
   touchStart: null,
   ignoreCategoryClickUntil: 0,
+  swipeHintShown: false,
+  swipeHintTimer: null,
 
 };
 
@@ -919,6 +921,7 @@ function hideSwipeHint() {
   if (!elements.swipeHint) return;
 
   window.clearTimeout(state.swipeHintTimer);
+  state.swipeHintTimer = null;
 
   elements.swipeHint.classList.remove(
     "is-visible",
@@ -930,6 +933,29 @@ function hideSwipeHint() {
   );
 }
 
+function showSwipeHintOnce() {
+  if (
+    !elements.swipeHint ||
+    state.swipeHintShown
+  ) {
+    return;
+  }
+
+  state.swipeHintShown = true;
+
+  elements.swipeHint.setAttribute(
+    "aria-hidden",
+    "false",
+  );
+
+  elements.swipeHint.classList.add(
+    "is-visible",
+  );
+
+  state.swipeHintTimer = window.setTimeout(() => {
+    hideSwipeHint();
+  }, 3000);
+}
 
 function updateBackToTop() {
   if (!elements.backToTop) return;
