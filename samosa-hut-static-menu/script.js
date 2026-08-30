@@ -29,7 +29,10 @@ const elements = {
   searchResults: document.querySelector("#search-results"),
 };
 
-const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const reducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+);
+
 const TORONTO_TIME_ZONE = "America/Toronto";
 
 const DAILY_SPECIAL_CATEGORY_IDS = new Set([
@@ -88,19 +91,29 @@ function setupOptionalImages(root = document) {
 
     image.dataset.ready = "true";
 
-    const showImage = () => container.classList.add("has-image");
+    const showImage = () => {
+      container.classList.add("has-image");
+    };
 
     const showFallback = () => {
       container.classList.remove("has-image");
       image.hidden = true;
     };
 
-    image.addEventListener("load", showImage, { once: true });
-    image.addEventListener("error", showFallback, { once: true });
+    image.addEventListener("load", showImage, {
+      once: true,
+    });
+
+    image.addEventListener("error", showFallback, {
+      once: true,
+    });
 
     if (image.complete) {
-      if (image.naturalWidth > 0) showImage();
-      else showFallback();
+      if (image.naturalWidth > 0) {
+        showImage();
+      } else {
+        showFallback();
+      }
     }
   });
 }
@@ -112,12 +125,12 @@ function renderPrice(item, choicesShown = false) {
         ${item.options
           .map(
             (option) => `
-          <div class="price-line">
-            <span>${escapeHTML(option.label)}</span>
-            <i aria-hidden="true"></i>
-            <strong>${escapeHTML(option.price)}</strong>
-          </div>
-        `,
+              <div class="price-line">
+                <span>${escapeHTML(option.label)}</span>
+                <i aria-hidden="true"></i>
+                <strong>${escapeHTML(option.price)}</strong>
+              </div>
+            `,
           )
           .join("")}
       </div>
@@ -133,7 +146,10 @@ function renderChoices(item) {
   if (!item.choices?.length) return "";
 
   const list = `
-    <ul class="choice-list" aria-label="${escapeHTML(item.name)} choices">
+    <ul
+      class="choice-list"
+      aria-label="${escapeHTML(item.name)} choices"
+    >
       ${item.choices
         .map((choice) => `<li>${escapeHTML(choice)}</li>`)
         .join("")}
@@ -142,15 +158,18 @@ function renderChoices(item) {
 
   const prices = item.options?.length
     ? `
-      <div class="choice-prices" aria-label="${escapeHTML(item.name)} prices">
+      <div
+        class="choice-prices"
+        aria-label="${escapeHTML(item.name)} prices"
+      >
         ${item.options
           .map(
             (option) => `
-          <span>
-            <small>${escapeHTML(option.label)}</small>
-            <strong>${escapeHTML(option.price)}</strong>
-          </span>
-        `,
+              <span>
+                <small>${escapeHTML(option.label)}</small>
+                <strong>${escapeHTML(option.price)}</strong>
+              </span>
+            `,
           )
           .join("")}
       </div>
@@ -166,6 +185,7 @@ function renderImageSlot(item, index) {
   if (item.image) {
     const isInitiallyVisible = index < 2;
     const thumbnail = item.thumbnail || item.image;
+
     const shouldLoadImmediately =
       Boolean(item.thumbnail) || isInitiallyVisible;
 
@@ -191,7 +211,12 @@ function renderImageSlot(item, index) {
     `;
   }
 
-  return `<div class="product-image-slot" aria-hidden="true"></div>`;
+  return `
+    <div
+      class="product-image-slot"
+      aria-hidden="true"
+    ></div>
+  `;
 }
 
 function renderItem(category, item, index) {
@@ -216,7 +241,7 @@ function renderItem(category, item, index) {
       <div class="menu-item-content">
         ${
           isToday
-            ? '<span class="today-special-label">Today\u2019s Special</span>'
+            ? '<span class="today-special-label">Today’s Special</span>'
             : ""
         }
 
@@ -262,11 +287,17 @@ function renderItem(category, item, index) {
 function renderFlavourGuide(guide) {
   if (!guide) return "";
 
-  const words = String(guide.title || "Choose your Flavour").split(" ");
+  const words = String(
+    guide.title || "Choose your Flavour",
+  ).split(" ");
+
   const finalWord = words.pop() || "Flavour";
 
   return `
-    <section class="fusion-guide" aria-label="Fusion flavour choices">
+    <section
+      class="fusion-guide"
+      aria-label="Fusion flavour choices"
+    >
       <div class="fusion-guide-intro">
         <p>${escapeHTML(words.join(" "))}</p>
         <h3>${escapeHTML(finalWord)}</h3>
@@ -286,7 +317,10 @@ function renderSpecialNotice(notice) {
   if (!notice) return "";
 
   return `
-    <section class="specials-notice" aria-label="Daily special conditions">
+    <section
+      class="specials-notice"
+      aria-label="Daily special conditions"
+    >
       <div class="specials-notice-main">
         ${notice.primary
           .map((line) => `<strong>${escapeHTML(line)}</strong>`)
@@ -297,6 +331,42 @@ function renderSpecialNotice(notice) {
     </section>
   `;
 }
+
+/*
+  This inline SVG creates the Instagram logo.
+
+  It does not require an image file, icon font,
+  Bootstrap Icons, Font Awesome or another library.
+*/
+const instagramLogo = `
+  <svg
+    class="menu-marquee-instagram-icon"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <rect
+      x="3"
+      y="3"
+      width="18"
+      height="18"
+      rx="5"
+    ></rect>
+
+    <circle
+      cx="12"
+      cy="12"
+      r="4"
+    ></circle>
+
+    <circle
+      class="instagram-icon-dot"
+      cx="17.5"
+      cy="6.5"
+      r="1"
+    ></circle>
+  </svg>
+`;
+
 function renderCategories() {
   const categories = state.menu.categories;
 
@@ -312,17 +382,21 @@ function renderCategories() {
             <span>Sunday 11 AM–8 PM</span>
 
             <span>
-              🅾
               <a
+                class="menu-marquee-instagram"
                 href="https://www.instagram.com/samosahut/?hl=en#"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Instagram: @samosahut"
               >
-                @samosahut
+                ${instagramLogo}
+                <b>@samosahut</b>
               </a>
             </span>
 
-            <span>Locations: Ajax &amp; Bowmanville</span>
+            <span>
+              Locations: Ajax &amp; Bowmanville
+            </span>
           </div>
 
           <div
@@ -333,13 +407,15 @@ function renderCategories() {
             <span>Sunday 11 AM–8 PM</span>
 
             <span>
-              🅾
               <b class="menu-marquee-instagram">
-                @samosahut
+                ${instagramLogo}
+                <span>@samosahut</span>
               </b>
             </span>
 
-            <span>Locations: Ajax &amp; Bowmanville</span>
+            <span>
+              Locations: Ajax &amp; Bowmanville
+            </span>
           </div>
         </div>
       </aside>
@@ -347,6 +423,7 @@ function renderCategories() {
       <div class="contents-heading">
         <p>Choose your craving</p>
         <h2>Menu Categories</h2>
+
         <span
           class="hand-underline"
           aria-hidden="true"
@@ -394,14 +471,19 @@ function renderCategories() {
 }
 
 function renderCategory(category) {
-  const isDailySpecials = isDailySpecialCategory(category);
+  const isDailySpecials =
+    isDailySpecialCategory(category);
 
   const ending = category.flavourGuide
     ? renderFlavourGuide(category.flavourGuide)
     : category.specialNotice
       ? renderSpecialNotice(category.specialNotice)
       : category.footnote
-        ? `<p class="category-footnote">${escapeHTML(category.footnote)}</p>`
+        ? `
+          <p class="category-footnote">
+            ${escapeHTML(category.footnote)}
+          </p>
+        `
         : "";
 
   return `
@@ -411,17 +493,28 @@ function renderCategory(category) {
       <div class="category-heading">
         <p>${escapeHTML(category.eyebrow)}</p>
         <h2>${escapeHTML(category.name)}</h2>
-        <span class="hand-underline" aria-hidden="true"></span>
-        <small>${escapeHTML(category.description)}</small>
+
+        <span
+          class="hand-underline"
+          aria-hidden="true"
+        ></span>
+
+        <small>
+          ${escapeHTML(category.description)}
+        </small>
       </div>
 
       ${
         isDailySpecials
           ? `
             <p class="daily-specials-hint">
-              <strong>${escapeHTML(getTorontoWeekday())}</strong>
+              <strong>
+                ${escapeHTML(getTorontoWeekday())}
+              </strong>
               is highlighted
-              <span aria-hidden="true">\u00b7</span>
+
+              <span aria-hidden="true">·</span>
+
               Swipe to view other days
             </p>
           `
@@ -432,7 +525,9 @@ function renderCategory(category) {
         isDailySpecials ? " daily-specials-grid" : ""
       }">
         ${category.items
-          .map((item, index) => renderItem(category, item, index))
+          .map((item, index) =>
+            renderItem(category, item, index),
+          )
           .join("")}
       </div>
 
@@ -447,13 +542,20 @@ function updateNavigation() {
 
   elements.pageCount.textContent = isCategories
     ? `${total} categories`
-    : `${String(state.currentIndex + 1).padStart(2, "0")} / ${String(
-        total,
-      ).padStart(2, "0")}`;
+    : `${String(state.currentIndex + 1).padStart(
+        2,
+        "0",
+      )} / ${String(total).padStart(2, "0")}`;
 
   elements.previousButton.disabled = isCategories;
-  elements.nextButton.disabled = state.currentIndex >= total - 1;
-  elements.categoriesButton.classList.toggle("active", isCategories);
+
+  elements.nextButton.disabled =
+    state.currentIndex >= total - 1;
+
+  elements.categoriesButton.classList.toggle(
+    "active",
+    isCategories,
+  );
 }
 
 function renderView() {
@@ -468,7 +570,10 @@ function renderView() {
 
   updateNavigation();
 
-  if (category && isDailySpecialCategory(category)) {
+  if (
+    category &&
+    isDailySpecialCategory(category)
+  ) {
     centerTodaySpecial();
   }
 }
@@ -479,7 +584,9 @@ function centerTodaySpecial() {
       ".daily-specials-grid",
     );
 
-    const todayCard = scroller?.querySelector("[data-today-special]");
+    const todayCard = scroller?.querySelector(
+      "[data-today-special]",
+    );
 
     if (
       !scroller ||
@@ -500,7 +607,9 @@ function centerTodaySpecial() {
 
     scroller.scrollTo({
       left: Math.max(0, left),
-      behavior: reducedMotion.matches ? "auto" : "smooth",
+      behavior: reducedMotion.matches
+        ? "auto"
+        : "smooth",
     });
   });
 }
@@ -510,23 +619,32 @@ async function goTo(index) {
 
   const target = Math.max(
     -1,
-    Math.min(state.menu.categories.length - 1, index),
+    Math.min(
+      state.menu.categories.length - 1,
+      index,
+    ),
   );
 
   if (target === state.currentIndex) {
     window.scrollTo({
       top: 0,
-      behavior: reducedMotion.matches ? "auto" : "smooth",
+      behavior: reducedMotion.matches
+        ? "auto"
+        : "smooth",
     });
 
     return;
   }
 
-  const direction = target > state.currentIndex ? 1 : -1;
+  const direction =
+    target > state.currentIndex ? 1 : -1;
 
   state.transitioning = true;
 
-  if (!reducedMotion.matches && elements.pageStage.animate) {
+  if (
+    !reducedMotion.matches &&
+    elements.pageStage.animate
+  ) {
     const outgoing = elements.pageStage.animate(
       [
         {
@@ -535,7 +653,9 @@ async function goTo(index) {
         },
         {
           opacity: 0,
-          transform: `translate3d(${direction * -28}px,0,0)`,
+          transform: `translate3d(${
+            direction * -28
+          }px,0,0)`,
         },
       ],
       {
@@ -557,12 +677,17 @@ async function goTo(index) {
     behavior: "auto",
   });
 
-  if (!reducedMotion.matches && elements.pageStage.animate) {
+  if (
+    !reducedMotion.matches &&
+    elements.pageStage.animate
+  ) {
     const incoming = elements.pageStage.animate(
       [
         {
           opacity: 0,
-          transform: `translate3d(${direction * 28}px,0,0)`,
+          transform: `translate3d(${
+            direction * 28
+          }px,0,0)`,
         },
         {
           opacity: 1,
@@ -588,8 +713,16 @@ function openMenu() {
   state.coverOpen = true;
 
   elements.app.classList.add("is-open");
-  elements.cover.setAttribute("aria-hidden", "true");
-  elements.bookShell.setAttribute("aria-hidden", "false");
+
+  elements.cover.setAttribute(
+    "aria-hidden",
+    "true",
+  );
+
+  elements.bookShell.setAttribute(
+    "aria-hidden",
+    "false",
+  );
 
   elements.bookShell.inert = false;
 
@@ -606,8 +739,16 @@ function returnToCover() {
   state.coverOpen = false;
 
   elements.app.classList.remove("is-open");
-  elements.cover.setAttribute("aria-hidden", "false");
-  elements.bookShell.setAttribute("aria-hidden", "true");
+
+  elements.cover.setAttribute(
+    "aria-hidden",
+    "false",
+  );
+
+  elements.bookShell.setAttribute(
+    "aria-hidden",
+    "true",
+  );
 
   elements.bookShell.inert = true;
 
@@ -622,8 +763,14 @@ function returnToCover() {
 function openSearch() {
   state.searchOpen = true;
 
-  elements.searchOverlay.classList.add("is-visible");
-  elements.searchOverlay.setAttribute("aria-hidden", "false");
+  elements.searchOverlay.classList.add(
+    "is-visible",
+  );
+
+  elements.searchOverlay.setAttribute(
+    "aria-hidden",
+    "false",
+  );
 
   document.body.classList.add("modal-open");
 
@@ -639,8 +786,14 @@ function closeSearch() {
 
   state.searchOpen = false;
 
-  elements.searchOverlay.classList.remove("is-visible");
-  elements.searchOverlay.setAttribute("aria-hidden", "true");
+  elements.searchOverlay.classList.remove(
+    "is-visible",
+  );
+
+  elements.searchOverlay.setAttribute(
+    "aria-hidden",
+    "true",
+  );
 
   elements.searchInput.value = "";
 
@@ -655,8 +808,16 @@ function setupImageViewer() {
 
   viewer.setAttribute("role", "dialog");
   viewer.setAttribute("aria-modal", "true");
-  viewer.setAttribute("aria-label", "Food image viewer");
-  viewer.setAttribute("aria-hidden", "true");
+
+  viewer.setAttribute(
+    "aria-label",
+    "Food image viewer",
+  );
+
+  viewer.setAttribute(
+    "aria-hidden",
+    "true",
+  );
 
   viewer.innerHTML = `
     <button
@@ -676,21 +837,33 @@ function setupImageViewer() {
   document.body.appendChild(viewer);
 
   elements.imageViewer = viewer;
-  elements.imageViewerImage = viewer.querySelector("img");
-  elements.imageViewerCaption = viewer.querySelector("p");
-  elements.imageViewerClose = viewer.querySelector(
-    ".image-viewer-close",
-  );
+
+  elements.imageViewerImage =
+    viewer.querySelector("img");
+
+  elements.imageViewerCaption =
+    viewer.querySelector("p");
+
+  elements.imageViewerClose =
+    viewer.querySelector(".image-viewer-close");
 }
 
 function setupBackToTop() {
-  const button = document.createElement("button");
+  const button =
+    document.createElement("button");
 
   button.className = "back-to-top";
   button.type = "button";
 
-  button.setAttribute("aria-label", "Back to top");
-  button.setAttribute("title", "Back to top");
+  button.setAttribute(
+    "aria-label",
+    "Back to top",
+  );
+
+  button.setAttribute(
+    "title",
+    "Back to top",
+  );
 
   document.body.appendChild(button);
 
@@ -720,10 +893,18 @@ function openImageViewer(trigger) {
     image.src;
 
   elements.imageViewerImage.alt = image.alt;
-  elements.imageViewerCaption.textContent = image.alt;
 
-  elements.imageViewer.classList.add("is-visible");
-  elements.imageViewer.setAttribute("aria-hidden", "false");
+  elements.imageViewerCaption.textContent =
+    image.alt;
+
+  elements.imageViewer.classList.add(
+    "is-visible",
+  );
+
+  elements.imageViewer.setAttribute(
+    "aria-hidden",
+    "false",
+  );
 
   document.body.classList.add("modal-open");
 
@@ -737,10 +918,18 @@ function closeImageViewer() {
 
   state.imageOpen = false;
 
-  elements.imageViewer.classList.remove("is-visible");
-  elements.imageViewer.setAttribute("aria-hidden", "true");
+  elements.imageViewer.classList.remove(
+    "is-visible",
+  );
 
-  elements.imageViewerImage.removeAttribute("src");
+  elements.imageViewer.setAttribute(
+    "aria-hidden",
+    "true",
+  );
+
+  elements.imageViewerImage.removeAttribute(
+    "src",
+  );
 
   document.body.classList.remove("modal-open");
 
@@ -749,7 +938,8 @@ function closeImageViewer() {
 }
 
 function buildSearchMatches(query) {
-  const normalized = query.trim().toLowerCase();
+  const normalized =
+    query.trim().toLowerCase();
 
   if (!normalized) return [];
 
@@ -781,13 +971,15 @@ function buildSearchMatches(query) {
 }
 
 function renderSearchResults(query) {
-  state.searchMatches = buildSearchMatches(query);
+  state.searchMatches =
+    buildSearchMatches(query);
 
   if (!query.trim()) {
     elements.searchResults.innerHTML = `
       <p class="search-state">
-        Search every item, flavour and option across all
-        ${state.menu.categories.length} categories.
+        Search every item, flavour and option
+        across all ${state.menu.categories.length}
+        categories.
       </p>
     `;
 
@@ -797,37 +989,44 @@ function renderSearchResults(query) {
   if (!state.searchMatches.length) {
     elements.searchResults.innerHTML = `
       <p class="search-state">
-        No menu items found for “${escapeHTML(query)}”.
+        No menu items found for
+        “${escapeHTML(query)}”.
       </p>
     `;
 
     return;
   }
 
-  elements.searchResults.innerHTML = state.searchMatches
-    .map(
-      ({ category, item }, index) => `
-        <button
-          type="button"
-          class="search-result"
-          data-search-index="${index}"
-        >
-          <span>
-            <small>${escapeHTML(category.shortName)}</small>
-            <b>${escapeHTML(item.name)}</b>
+  elements.searchResults.innerHTML =
+    state.searchMatches
+      .map(
+        ({ category, item }, index) => `
+          <button
+            type="button"
+            class="search-result"
+            data-search-index="${index}"
+          >
+            <span>
+              <small>
+                ${escapeHTML(category.shortName)}
+              </small>
 
-            ${
-              item.note
-                ? `<em>${escapeHTML(item.note)}</em>`
-                : ""
-            }
-          </span>
+              <b>${escapeHTML(item.name)}</b>
 
-          <strong>${escapeHTML(itemPrice(item))}</strong>
-        </button>
-      `,
-    )
-    .join("");
+              ${
+                item.note
+                  ? `<em>${escapeHTML(item.note)}</em>`
+                  : ""
+              }
+            </span>
+
+            <strong>
+              ${escapeHTML(itemPrice(item))}
+            </strong>
+          </button>
+        `,
+      )
+      .join("");
 }
 
 async function chooseSearchMatch(index) {
@@ -841,33 +1040,50 @@ async function chooseSearchMatch(index) {
 
   document
     .getElementById(
-      itemAnchor(match.category.id, match.item.name),
+      itemAnchor(
+        match.category.id,
+        match.item.name,
+      ),
     )
     ?.scrollIntoView({
-      behavior: reducedMotion.matches ? "auto" : "smooth",
+      behavior: reducedMotion.matches
+        ? "auto"
+        : "smooth",
       block: "center",
     });
 }
 
 function bindEvents() {
-  elements.openMenu.addEventListener("click", openMenu);
+  elements.openMenu.addEventListener(
+    "click",
+    openMenu,
+  );
 
   elements.brandButton.addEventListener(
     "click",
     returnToCover,
   );
 
-  elements.previousButton.addEventListener("click", () => {
-    goTo(state.currentIndex - 1);
-  });
+  elements.previousButton.addEventListener(
+    "click",
+    () => {
+      goTo(state.currentIndex - 1);
+    },
+  );
 
-  elements.categoriesButton.addEventListener("click", () => {
-    goTo(-1);
-  });
+  elements.categoriesButton.addEventListener(
+    "click",
+    () => {
+      goTo(-1);
+    },
+  );
 
-  elements.nextButton.addEventListener("click", () => {
-    goTo(state.currentIndex + 1);
-  });
+  elements.nextButton.addEventListener(
+    "click",
+    () => {
+      goTo(state.currentIndex + 1);
+    },
+  );
 
   elements.searchTrigger.addEventListener(
     "click",
@@ -879,28 +1095,39 @@ function bindEvents() {
     closeSearch,
   );
 
-  elements.searchInput.addEventListener("input", (event) => {
-    renderSearchResults(event.target.value);
-  });
+  elements.searchInput.addEventListener(
+    "input",
+    (event) => {
+      renderSearchResults(event.target.value);
+    },
+  );
 
-  elements.pageStage.addEventListener("click", (event) => {
-    const imageTrigger = event.target.closest(
-      "[data-enlarge-image]",
-    );
+  elements.pageStage.addEventListener(
+    "click",
+    (event) => {
+      const imageTrigger = event.target.closest(
+        "[data-enlarge-image]",
+      );
 
-    if (imageTrigger) {
-      openImageViewer(imageTrigger);
-      return;
-    }
+      if (imageTrigger) {
+        openImageViewer(imageTrigger);
+        return;
+      }
 
-    const categoryButton = event.target.closest(
-      "[data-category-index]",
-    );
+      const categoryButton =
+        event.target.closest(
+          "[data-category-index]",
+        );
 
-    if (categoryButton) {
-      goTo(Number(categoryButton.dataset.categoryIndex));
-    }
-  });
+      if (categoryButton) {
+        goTo(
+          Number(
+            categoryButton.dataset.categoryIndex,
+          ),
+        );
+      }
+    },
+  );
 
   elements.pageStage.addEventListener(
     "error",
@@ -927,18 +1154,26 @@ function bindEvents() {
     closeImageViewer,
   );
 
-  elements.imageViewer.addEventListener("click", (event) => {
-    if (event.target === elements.imageViewer) {
-      closeImageViewer();
-    }
-  });
+  elements.imageViewer.addEventListener(
+    "click",
+    (event) => {
+      if (event.target === elements.imageViewer) {
+        closeImageViewer();
+      }
+    },
+  );
 
-  elements.backToTop.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: reducedMotion.matches ? "auto" : "smooth",
-    });
-  });
+  elements.backToTop.addEventListener(
+    "click",
+    () => {
+      window.scrollTo({
+        top: 0,
+        behavior: reducedMotion.matches
+          ? "auto"
+          : "smooth",
+      });
+    },
+  );
 
   elements.searchResults.addEventListener(
     "click",
@@ -958,7 +1193,9 @@ function bindEvents() {
   elements.searchOverlay.addEventListener(
     "click",
     (event) => {
-      if (event.target === elements.searchOverlay) {
+      if (
+        event.target === elements.searchOverlay
+      ) {
         closeSearch();
       }
     },
@@ -992,12 +1229,20 @@ function bindEvents() {
   elements.pageStage.addEventListener(
     "touchend",
     (event) => {
-      if (!state.touchStart || state.searchOpen) return;
+      if (
+        !state.touchStart ||
+        state.searchOpen
+      ) {
+        return;
+      }
 
       const touch = event.changedTouches[0];
 
-      const dx = touch.clientX - state.touchStart.x;
-      const dy = touch.clientY - state.touchStart.y;
+      const dx =
+        touch.clientX - state.touchStart.x;
+
+      const dy =
+        touch.clientY - state.touchStart.y;
 
       state.touchStart = null;
 
@@ -1009,7 +1254,8 @@ function bindEvents() {
       }
 
       goTo(
-        state.currentIndex + (dx < 0 ? 1 : -1),
+        state.currentIndex +
+          (dx < 0 ? 1 : -1),
       );
     },
     {
@@ -1017,34 +1263,51 @@ function bindEvents() {
     },
   );
 
-  window.addEventListener("keydown", (event) => {
-    if (!state.coverOpen) return;
+  window.addEventListener(
+    "keydown",
+    (event) => {
+      if (!state.coverOpen) return;
 
-    if (event.key === "Escape" && state.imageOpen) {
-      return closeImageViewer();
-    }
+      if (
+        event.key === "Escape" &&
+        state.imageOpen
+      ) {
+        return closeImageViewer();
+      }
 
-    if (event.key === "Escape" && state.searchOpen) {
-      return closeSearch();
-    }
+      if (
+        event.key === "Escape" &&
+        state.searchOpen
+      ) {
+        return closeSearch();
+      }
 
-    if (state.searchOpen || state.imageOpen) return;
+      if (
+        state.searchOpen ||
+        state.imageOpen
+      ) {
+        return;
+      }
 
-    if (event.key === "ArrowRight") {
-      goTo(state.currentIndex + 1);
-    }
+      if (event.key === "ArrowRight") {
+        goTo(state.currentIndex + 1);
+      }
 
-    if (event.key === "ArrowLeft") {
-      goTo(state.currentIndex - 1);
-    }
-  });
+      if (event.key === "ArrowLeft") {
+        goTo(state.currentIndex - 1);
+      }
+    },
+  );
 }
 
 async function loadMenu() {
   try {
-    const response = await fetch("menu.json", {
-      cache: "no-store",
-    });
+    const response = await fetch(
+      "menu.json",
+      {
+        cache: "no-store",
+      },
+    );
 
     if (!response.ok) {
       throw new Error(
@@ -1058,7 +1321,9 @@ async function loadMenu() {
       !Array.isArray(menu.categories) ||
       !menu.categories.length
     ) {
-      throw new Error("No menu categories found");
+      throw new Error(
+        "No menu categories found",
+      );
     }
 
     state.menu = menu;
@@ -1071,9 +1336,10 @@ async function loadMenu() {
 
     elements.pageStage.innerHTML = `
       <p class="error-state">
-        The menu could not load. If you opened index.html
-        directly, run it through GitHub Pages, Cloudflare
-        Pages or a local web server so menu.json can be read.
+        The menu could not load. If you opened
+        index.html directly, run it through GitHub
+        Pages, Cloudflare Pages or a local web server
+        so menu.json can be read.
       </p>
     `;
 
