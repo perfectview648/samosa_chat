@@ -30,6 +30,31 @@ const elements = {
 };
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const TORONTO_TIME_ZONE = "America/Toronto";
+
+const DAILY_SPECIAL_CATEGORY_IDS = new Set([
+  "menu-daily-specials",
+  "samosa-daily-specials",
+]);
+
+function isDailySpecialCategory(category) {
+  return DAILY_SPECIAL_CATEGORY_IDS.has(category?.id);
+}
+
+function getTorontoWeekday() {
+  return new Intl.DateTimeFormat("en-CA", {
+    weekday: "long",
+    timeZone: TORONTO_TIME_ZONE,
+  }).format(new Date());
+}
+
+function isTodaySpecial(category, item) {
+  return (
+    isDailySpecialCategory(category) &&
+    String(item?.name || "").toLowerCase() ===
+      getTorontoWeekday().toLowerCase()
+  );
+}
 
 function escapeHTML(value = "") {
   return String(value)
@@ -58,10 +83,13 @@ function itemPrice(item) {
 function setupOptionalImages(root = document) {
   root.querySelectorAll("[data-optional-image]").forEach((container) => {
     const image = container.querySelector("[data-image]");
+
     if (!image || image.dataset.ready === "true") return;
+
     image.dataset.ready = "true";
 
     const showImage = () => container.classList.add("has-image");
+
     const showFallback = () => {
       container.classList.remove("has-image");
       image.hidden = true;
@@ -81,13 +109,17 @@ function renderPrice(item, choicesShown = false) {
   if (item.options?.length && !choicesShown) {
     return `
       <div class="price-options">
-        ${item.options.map((option) => `
+        ${item.options
+          .map(
+            (option) => `
           <div class="price-line">
             <span>${escapeHTML(option.label)}</span>
             <i aria-hidden="true"></i>
             <strong>${escapeHTML(option.price)}</strong>
           </div>
-        `).join("")}
+        `,
+          )
+          .join("")}
       </div>
     `;
   }
@@ -102,16 +134,25 @@ function renderChoices(item) {
 
   const list = `
     <ul class="choice-list" aria-label="${escapeHTML(item.name)} choices">
-      ${item.choices.map((choice) => `<li>${escapeHTML(choice)}</li>`).join("")}
+      ${item.choices
+        .map((choice) => `<li>${escapeHTML(choice)}</li>`)
+        .join("")}
     </ul>
   `;
 
   const prices = item.options?.length
     ? `
       <div class="choice-prices" aria-label="${escapeHTML(item.name)} prices">
-        ${item.options.map((option) => `
-          <span><small>${escapeHTML(option.label)}</small><strong>${escapeHTML(option.price)}</strong></span>
-        `).join("")}
+        ${item.options
+          .map(
+            (option) => `
+          <span>
+            <small>${escapeHTML(option.label)}</small>
+            <strong>${escapeHTML(option.price)}</strong>
+          </span>
+        `,
+          )
+          .join("")}
       </div>
     `
     : "";
@@ -125,10 +166,27 @@ function renderImageSlot(item, index) {
   if (item.image) {
     const isInitiallyVisible = index < 2;
     const thumbnail = item.thumbnail || item.image;
-    const shouldLoadImmediately = Boolean(item.thumbnail) || isInitiallyVisible;
+    const shouldLoadImmediately =
+      Boolean(item.thumbnail) || isInitiallyVisible;
+
     return `
-      <button class="product-image-slot" type="button" data-enlarge-image data-full-image="${escapeHTML(item.image)}" aria-label="Enlarge image of ${escapeHTML(item.name)}">
-        <img src="${escapeHTML(thumbnail)}" data-fallback-image="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" width="360" height="360" loading="${shouldLoadImmediately ? "eager" : "lazy"}" fetchpriority="${isInitiallyVisible ? "high" : "auto"}" decoding="async">
+      <button
+        class="product-image-slot"
+        type="button"
+        data-enlarge-image
+        data-full-image="${escapeHTML(item.image)}"
+        aria-label="Enlarge image of ${escapeHTML(item.name)}"
+      >
+        <img
+          src="${escapeHTML(thumbnail)}"
+          data-fallback-image="${escapeHTML(item.image)}"
+          alt="${escapeHTML(item.name)}"
+          width="360"
+          height="360"
+          loading="${shouldLoadImmediately ? "eager" : "lazy"}"
+          fetchpriority="${isInitiallyVisible ? "high" : "auto"}"
+          decoding="async"
+        >
       </button>
     `;
   }
@@ -138,24 +196,64 @@ function renderImageSlot(item, index) {
 
 function renderItem(category, item, index) {
   const hasImage = Boolean(item.imageSlot || item.image);
-  const isDailySpecial = category.id === "menu-daily-specials" || category.id === "samosa-daily-specials";
+  const isDailySpecial = isDailySpecialCategory(category);
+  const isToday = isTodaySpecial(category, item);
 
   return `
     <article
       id="${escapeHTML(itemAnchor(category.id, item.name))}"
-      class="menu-item${hasImage ? " has-image" : ""}${isDailySpecial ? " daily-special-card" : ""}"
+      class="menu-item${hasImage ? " has-image" : ""}${
+        isDailySpecial ? " daily-special-card" : ""
+      }${isToday ? " is-today" : ""}"
+      ${
+        isToday
+          ? 'data-today-special aria-current="date"'
+          : ""
+      }
     >
       ${renderImageSlot(item, index)}
+
       <div class="menu-item-content">
+        ${
+          isToday
+            ? '<span class="today-special-label">Today\u2019s Special</span>'
+            : ""
+        }
+
         <div class="item-topline">
-          <span class="item-number">${String(index + 1).padStart(2, "0")}</span>
+          <span class="item-number">
+            ${String(index + 1).padStart(2, "0")}
+          </span>
+
           <h3>${escapeHTML(item.name)}</h3>
-          ${item.accent ? `<em>${escapeHTML(item.accent)}</em>` : ""}
+
+          ${
+            item.accent
+              ? `<em>${escapeHTML(item.accent)}</em>`
+              : ""
+          }
+
           ${renderPrice(item, Boolean(item.choices?.length))}
         </div>
+
         ${renderChoices(item)}
-        ${!item.choices?.length && item.note ? `<p>${escapeHTML(item.note)}</p>` : ""}
-        ${item.allergyWarning ? `<p class="item-allergy-note"><strong>Allergy warning:</strong> ${escapeHTML(item.allergyWarning)}</p>` : ""}
+
+        ${
+          !item.choices?.length && item.note
+            ? `<p>${escapeHTML(item.note)}</p>`
+            : ""
+        }
+
+        ${
+          item.allergyWarning
+            ? `
+              <p class="item-allergy-note">
+                <strong>Allergy warning:</strong>
+                ${escapeHTML(item.allergyWarning)}
+              </p>
+            `
+            : ""
+        }
       </div>
     </article>
   `;
@@ -163,6 +261,7 @@ function renderItem(category, item, index) {
 
 function renderFlavourGuide(guide) {
   if (!guide) return "";
+
   const words = String(guide.title || "Choose your Flavour").split(" ");
   const finalWord = words.pop() || "Flavour";
 
@@ -173,18 +272,27 @@ function renderFlavourGuide(guide) {
         <h3>${escapeHTML(finalWord)}</h3>
         <small>${escapeHTML(guide.note)}</small>
       </div>
-      <ul>${guide.choices.map((choice) => `<li>${escapeHTML(choice)}</li>`).join("")}</ul>
+
+      <ul>
+        ${guide.choices
+          .map((choice) => `<li>${escapeHTML(choice)}</li>`)
+          .join("")}
+      </ul>
     </section>
   `;
 }
 
 function renderSpecialNotice(notice) {
   if (!notice) return "";
+
   return `
     <section class="specials-notice" aria-label="Daily special conditions">
       <div class="specials-notice-main">
-        ${notice.primary.map((line) => `<strong>${escapeHTML(line)}</strong>`).join("")}
+        ${notice.primary
+          .map((line) => `<strong>${escapeHTML(line)}</strong>`)
+          .join("")}
       </div>
+
       <p>(${escapeHTML(notice.secondary)})</p>
     </section>
   `;
@@ -192,6 +300,7 @@ function renderSpecialNotice(notice) {
 
 function renderCategories() {
   const categories = state.menu.categories;
+
   return `
     <section class="contents-page">
       <div class="contents-heading">
@@ -199,24 +308,42 @@ function renderCategories() {
         <h2>Menu Categories</h2>
         <span class="hand-underline" aria-hidden="true"></span>
       </div>
+
       <div class="category-grid">
-        ${categories.map((category, index) => `
-          <button type="button" class="category-tile" data-category-index="${index}">
-            <span class="category-number">${escapeHTML(category.number)}</span>
+        ${categories
+          .map(
+            (category, index) => `
+          <button
+            type="button"
+            class="category-tile"
+            data-category-index="${index}"
+          >
+            <span class="category-number">
+              ${escapeHTML(category.number)}
+            </span>
+
             <span class="category-copy">
               <b>${escapeHTML(category.name)}</b>
               <small>${escapeHTML(category.description)}</small>
             </span>
+
             <span class="category-arrow" aria-hidden="true">↗</span>
           </button>
-        `).join("")}
+        `,
+          )
+          .join("")}
       </div>
-      <p class="tax-note">Prices shown are exclusive of applicable taxes.</p>
+
+      <p class="tax-note">
+        Prices shown are exclusive of applicable taxes.
+      </p>
     </section>
   `;
 }
 
 function renderCategory(category) {
+  const isDailySpecials = isDailySpecialCategory(category);
+
   const ending = category.flavourGuide
     ? renderFlavourGuide(category.flavourGuide)
     : category.specialNotice
@@ -226,16 +353,37 @@ function renderCategory(category) {
         : "";
 
   return `
-    <section class="category-page">
+    <section class="category-page${
+      isDailySpecials ? " daily-specials-page" : ""
+    }">
       <div class="category-heading">
         <p>${escapeHTML(category.eyebrow)}</p>
         <h2>${escapeHTML(category.name)}</h2>
         <span class="hand-underline" aria-hidden="true"></span>
         <small>${escapeHTML(category.description)}</small>
       </div>
-      <div class="menu-grid">
-        ${category.items.map((item, index) => renderItem(category, item, index)).join("")}
+
+      ${
+        isDailySpecials
+          ? `
+            <p class="daily-specials-hint">
+              <strong>${escapeHTML(getTorontoWeekday())}</strong>
+              is highlighted
+              <span aria-hidden="true">\u00b7</span>
+              Swipe to view other days
+            </p>
+          `
+          : ""
+      }
+
+      <div class="menu-grid${
+        isDailySpecials ? " daily-specials-grid" : ""
+      }">
+        ${category.items
+          .map((item, index) => renderItem(category, item, index))
+          .join("")}
       </div>
+
       ${ending}
     </section>
   `;
@@ -247,7 +395,9 @@ function updateNavigation() {
 
   elements.pageCount.textContent = isCategories
     ? `${total} categories`
-    : `${String(state.currentIndex + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+    : `${String(state.currentIndex + 1).padStart(2, "0")} / ${String(
+        total,
+      ).padStart(2, "0")}`;
 
   elements.previousButton.disabled = isCategories;
   elements.nextButton.disabled = state.currentIndex >= total - 1;
@@ -255,52 +405,125 @@ function updateNavigation() {
 }
 
 function renderView() {
-  const category = state.currentIndex >= 0
-    ? state.menu.categories[state.currentIndex]
-    : null;
+  const category =
+    state.currentIndex >= 0
+      ? state.menu.categories[state.currentIndex]
+      : null;
 
   elements.pageStage.innerHTML = category
     ? renderCategory(category)
     : renderCategories();
 
   updateNavigation();
+
+  if (category && isDailySpecialCategory(category)) {
+    centerTodaySpecial();
+  }
+}
+
+function centerTodaySpecial() {
+  window.requestAnimationFrame(() => {
+    const scroller = elements.pageStage.querySelector(
+      ".daily-specials-grid",
+    );
+
+    const todayCard = scroller?.querySelector("[data-today-special]");
+
+    if (
+      !scroller ||
+      !todayCard ||
+      scroller.scrollWidth <= scroller.clientWidth + 1
+    ) {
+      return;
+    }
+
+    const scrollerBox = scroller.getBoundingClientRect();
+    const cardBox = todayCard.getBoundingClientRect();
+
+    const left =
+      scroller.scrollLeft +
+      cardBox.left -
+      scrollerBox.left -
+      (scroller.clientWidth - cardBox.width) / 2;
+
+    scroller.scrollTo({
+      left: Math.max(0, left),
+      behavior: reducedMotion.matches ? "auto" : "smooth",
+    });
+  });
 }
 
 async function goTo(index) {
   if (!state.menu || state.transitioning) return;
 
-  const target = Math.max(-1, Math.min(state.menu.categories.length - 1, index));
+  const target = Math.max(
+    -1,
+    Math.min(state.menu.categories.length - 1, index),
+  );
+
   if (target === state.currentIndex) {
-    window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" });
+    window.scrollTo({
+      top: 0,
+      behavior: reducedMotion.matches ? "auto" : "smooth",
+    });
+
     return;
   }
 
   const direction = target > state.currentIndex ? 1 : -1;
+
   state.transitioning = true;
 
   if (!reducedMotion.matches && elements.pageStage.animate) {
-    const out = elements.pageStage.animate(
+    const outgoing = elements.pageStage.animate(
       [
-        { opacity: 1, transform: "translate3d(0,0,0)" },
-        { opacity: 0, transform: `translate3d(${direction * -28}px,0,0)` },
+        {
+          opacity: 1,
+          transform: "translate3d(0,0,0)",
+        },
+        {
+          opacity: 0,
+          transform: `translate3d(${direction * -28}px,0,0)`,
+        },
       ],
-      { duration: 130, easing: "ease-out", fill: "forwards" },
+      {
+        duration: 130,
+        easing: "ease-out",
+        fill: "forwards",
+      },
     );
-    await out.finished.catch(() => {});
+
+    await outgoing.finished.catch(() => {});
   }
 
   state.currentIndex = target;
+
   renderView();
-  window.scrollTo({ top: 0, behavior: "auto" });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "auto",
+  });
 
   if (!reducedMotion.matches && elements.pageStage.animate) {
     const incoming = elements.pageStage.animate(
       [
-        { opacity: 0, transform: `translate3d(${direction * 28}px,0,0)` },
-        { opacity: 1, transform: "translate3d(0,0,0)" },
+        {
+          opacity: 0,
+          transform: `translate3d(${direction * 28}px,0,0)`,
+        },
+        {
+          opacity: 1,
+          transform: "translate3d(0,0,0)",
+        },
       ],
-      { duration: 190, easing: "cubic-bezier(.2,.75,.2,1)", fill: "both" },
+      {
+        duration: 190,
+        easing: "cubic-bezier(.2,.75,.2,1)",
+        fill: "both",
+      },
     );
+
     await incoming.finished.catch(() => {});
   }
 
@@ -309,124 +532,199 @@ async function goTo(index) {
 
 function openMenu() {
   if (!state.menu) return;
+
   state.coverOpen = true;
+
   elements.app.classList.add("is-open");
   elements.cover.setAttribute("aria-hidden", "true");
   elements.bookShell.setAttribute("aria-hidden", "false");
+
   elements.bookShell.inert = false;
+
   updateBackToTop();
 }
 
 function returnToCover() {
   closeSearch();
+
   state.currentIndex = -1;
+
   renderView();
+
   state.coverOpen = false;
+
   elements.app.classList.remove("is-open");
   elements.cover.setAttribute("aria-hidden", "false");
   elements.bookShell.setAttribute("aria-hidden", "true");
+
   elements.bookShell.inert = true;
+
   updateBackToTop();
-  window.scrollTo({ top: 0, behavior: "auto" });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "auto",
+  });
 }
 
 function openSearch() {
   state.searchOpen = true;
+
   elements.searchOverlay.classList.add("is-visible");
   elements.searchOverlay.setAttribute("aria-hidden", "false");
+
   document.body.classList.add("modal-open");
+
   renderSearchResults("");
-  window.setTimeout(() => elements.searchInput.focus(), 80);
+
+  window.setTimeout(() => {
+    elements.searchInput.focus();
+  }, 80);
 }
 
 function closeSearch() {
   if (!state.searchOpen) return;
+
   state.searchOpen = false;
+
   elements.searchOverlay.classList.remove("is-visible");
   elements.searchOverlay.setAttribute("aria-hidden", "true");
+
   elements.searchInput.value = "";
+
   document.body.classList.remove("modal-open");
 }
 
 function setupImageViewer() {
   const viewer = document.createElement("section");
+
   viewer.id = "image-viewer";
   viewer.className = "image-viewer";
+
   viewer.setAttribute("role", "dialog");
   viewer.setAttribute("aria-modal", "true");
   viewer.setAttribute("aria-label", "Food image viewer");
   viewer.setAttribute("aria-hidden", "true");
+
   viewer.innerHTML = `
-    <button class="image-viewer-close" type="button" aria-label="Close image viewer">&times;</button>
+    <button
+      class="image-viewer-close"
+      type="button"
+      aria-label="Close image viewer"
+    >
+      &times;
+    </button>
+
     <div class="image-viewer-frame">
       <img alt="">
       <p></p>
     </div>
   `;
+
   document.body.appendChild(viewer);
+
   elements.imageViewer = viewer;
   elements.imageViewerImage = viewer.querySelector("img");
   elements.imageViewerCaption = viewer.querySelector("p");
-  elements.imageViewerClose = viewer.querySelector(".image-viewer-close");
+  elements.imageViewerClose = viewer.querySelector(
+    ".image-viewer-close",
+  );
 }
 
 function setupBackToTop() {
   const button = document.createElement("button");
+
   button.className = "back-to-top";
   button.type = "button";
+
   button.setAttribute("aria-label", "Back to top");
   button.setAttribute("title", "Back to top");
+
   document.body.appendChild(button);
+
   elements.backToTop = button;
 }
 
 function updateBackToTop() {
   if (!elements.backToTop) return;
-  elements.backToTop.classList.toggle("is-visible", state.coverOpen);
+
+  elements.backToTop.classList.toggle(
+    "is-visible",
+    state.coverOpen,
+  );
 }
 
 function openImageViewer(trigger) {
   const image = trigger.querySelector("img");
+
   if (!image) return;
+
   state.imageOpen = true;
   state.lastImageTrigger = trigger;
-  elements.imageViewerImage.src = trigger.dataset.fullImage || image.currentSrc || image.src;
+
+  elements.imageViewerImage.src =
+    trigger.dataset.fullImage ||
+    image.currentSrc ||
+    image.src;
+
   elements.imageViewerImage.alt = image.alt;
   elements.imageViewerCaption.textContent = image.alt;
+
   elements.imageViewer.classList.add("is-visible");
   elements.imageViewer.setAttribute("aria-hidden", "false");
+
   document.body.classList.add("modal-open");
-  window.setTimeout(() => elements.imageViewerClose.focus(), 80);
+
+  window.setTimeout(() => {
+    elements.imageViewerClose.focus();
+  }, 80);
 }
 
 function closeImageViewer() {
   if (!state.imageOpen) return;
+
   state.imageOpen = false;
+
   elements.imageViewer.classList.remove("is-visible");
   elements.imageViewer.setAttribute("aria-hidden", "true");
+
   elements.imageViewerImage.removeAttribute("src");
+
   document.body.classList.remove("modal-open");
+
   state.lastImageTrigger?.focus();
   state.lastImageTrigger = null;
 }
 
 function buildSearchMatches(query) {
   const normalized = query.trim().toLowerCase();
+
   if (!normalized) return [];
 
-  return state.menu.categories.flatMap((category, categoryIndex) =>
-    category.items
-      .filter((item) => {
-        const searchable = [
-          item.name,
-          item.note,
-          item.accent,
-          ...(item.choices || []),
-          ...(item.options || []).map((option) => option.label),
-        ].filter(Boolean).join(" ").toLowerCase();
-        return searchable.includes(normalized);
-      })
-      .map((item) => ({ category, categoryIndex, item })),
+  return state.menu.categories.flatMap(
+    (category, categoryIndex) =>
+      category.items
+        .filter((item) => {
+          const searchable = [
+            item.name,
+            item.note,
+            item.accent,
+            ...(item.choices || []),
+            ...(item.options || []).map(
+              (option) => option.label,
+            ),
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
+          return searchable.includes(normalized);
+        })
+        .map((item) => ({
+          category,
+          categoryIndex,
+          item,
+        })),
   );
 }
 
@@ -434,67 +732,153 @@ function renderSearchResults(query) {
   state.searchMatches = buildSearchMatches(query);
 
   if (!query.trim()) {
-    elements.searchResults.innerHTML = `<p class="search-state">Search every item, flavour and option across all ${state.menu.categories.length} categories.</p>`;
+    elements.searchResults.innerHTML = `
+      <p class="search-state">
+        Search every item, flavour and option across all
+        ${state.menu.categories.length} categories.
+      </p>
+    `;
+
     return;
   }
 
   if (!state.searchMatches.length) {
-    elements.searchResults.innerHTML = `<p class="search-state">No menu items found for “${escapeHTML(query)}”.</p>`;
+    elements.searchResults.innerHTML = `
+      <p class="search-state">
+        No menu items found for “${escapeHTML(query)}”.
+      </p>
+    `;
+
     return;
   }
 
-  elements.searchResults.innerHTML = state.searchMatches.map(({ category, item }, index) => `
-    <button type="button" class="search-result" data-search-index="${index}">
-      <span>
-        <small>${escapeHTML(category.shortName)}</small>
-        <b>${escapeHTML(item.name)}</b>
-        ${item.note ? `<em>${escapeHTML(item.note)}</em>` : ""}
-      </span>
-      <strong>${escapeHTML(itemPrice(item))}</strong>
-    </button>
-  `).join("");
+  elements.searchResults.innerHTML = state.searchMatches
+    .map(
+      ({ category, item }, index) => `
+        <button
+          type="button"
+          class="search-result"
+          data-search-index="${index}"
+        >
+          <span>
+            <small>${escapeHTML(category.shortName)}</small>
+            <b>${escapeHTML(item.name)}</b>
+
+            ${
+              item.note
+                ? `<em>${escapeHTML(item.note)}</em>`
+                : ""
+            }
+          </span>
+
+          <strong>${escapeHTML(itemPrice(item))}</strong>
+        </button>
+      `,
+    )
+    .join("");
 }
 
 async function chooseSearchMatch(index) {
   const match = state.searchMatches[index];
+
   if (!match) return;
+
   closeSearch();
+
   await goTo(match.categoryIndex);
-  document.getElementById(itemAnchor(match.category.id, match.item.name))
-    ?.scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth", block: "center" });
+
+  document
+    .getElementById(
+      itemAnchor(match.category.id, match.item.name),
+    )
+    ?.scrollIntoView({
+      behavior: reducedMotion.matches ? "auto" : "smooth",
+      block: "center",
+    });
 }
 
 function bindEvents() {
   elements.openMenu.addEventListener("click", openMenu);
-  elements.brandButton.addEventListener("click", returnToCover);
-  elements.previousButton.addEventListener("click", () => goTo(state.currentIndex - 1));
-  elements.categoriesButton.addEventListener("click", () => goTo(-1));
-  elements.nextButton.addEventListener("click", () => goTo(state.currentIndex + 1));
-  elements.searchTrigger.addEventListener("click", openSearch);
-  elements.searchClose.addEventListener("click", closeSearch);
-  elements.searchInput.addEventListener("input", (event) => renderSearchResults(event.target.value));
+
+  elements.brandButton.addEventListener(
+    "click",
+    returnToCover,
+  );
+
+  elements.previousButton.addEventListener("click", () => {
+    goTo(state.currentIndex - 1);
+  });
+
+  elements.categoriesButton.addEventListener("click", () => {
+    goTo(-1);
+  });
+
+  elements.nextButton.addEventListener("click", () => {
+    goTo(state.currentIndex + 1);
+  });
+
+  elements.searchTrigger.addEventListener(
+    "click",
+    openSearch,
+  );
+
+  elements.searchClose.addEventListener(
+    "click",
+    closeSearch,
+  );
+
+  elements.searchInput.addEventListener("input", (event) => {
+    renderSearchResults(event.target.value);
+  });
 
   elements.pageStage.addEventListener("click", (event) => {
-    const imageTrigger = event.target.closest("[data-enlarge-image]");
+    const imageTrigger = event.target.closest(
+      "[data-enlarge-image]",
+    );
+
     if (imageTrigger) {
       openImageViewer(imageTrigger);
       return;
     }
 
-    const button = event.target.closest("[data-category-index]");
-    if (button) goTo(Number(button.dataset.categoryIndex));
+    const categoryButton = event.target.closest(
+      "[data-category-index]",
+    );
+
+    if (categoryButton) {
+      goTo(Number(categoryButton.dataset.categoryIndex));
+    }
   });
 
-  elements.pageStage.addEventListener("error", (event) => {
-    const image = event.target.closest?.("img[data-fallback-image]");
-    if (!image || image.dataset.fallbackUsed === "true") return;
-    image.dataset.fallbackUsed = "true";
-    image.src = image.dataset.fallbackImage;
-  }, true);
+  elements.pageStage.addEventListener(
+    "error",
+    (event) => {
+      const image = event.target.closest?.(
+        "img[data-fallback-image]",
+      );
 
-  elements.imageViewerClose.addEventListener("click", closeImageViewer);
+      if (
+        !image ||
+        image.dataset.fallbackUsed === "true"
+      ) {
+        return;
+      }
+
+      image.dataset.fallbackUsed = "true";
+      image.src = image.dataset.fallbackImage;
+    },
+    true,
+  );
+
+  elements.imageViewerClose.addEventListener(
+    "click",
+    closeImageViewer,
+  );
+
   elements.imageViewer.addEventListener("click", (event) => {
-    if (event.target === elements.imageViewer) closeImageViewer();
+    if (event.target === elements.imageViewer) {
+      closeImageViewer();
+    }
   });
 
   elements.backToTop.addEventListener("click", () => {
@@ -504,73 +888,169 @@ function bindEvents() {
     });
   });
 
-  elements.searchResults.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-search-index]");
-    if (button) chooseSearchMatch(Number(button.dataset.searchIndex));
-  });
+  elements.searchResults.addEventListener(
+    "click",
+    (event) => {
+      const button = event.target.closest(
+        "[data-search-index]",
+      );
 
-  elements.searchOverlay.addEventListener("click", (event) => {
-    if (event.target === elements.searchOverlay) closeSearch();
-  });
+      if (button) {
+        chooseSearchMatch(
+          Number(button.dataset.searchIndex),
+        );
+      }
+    },
+  );
 
-  elements.pageStage.addEventListener("touchstart", (event) => {
-    if (event.target.closest("button, input, a") || state.searchOpen || state.imageOpen) return;
-    const touch = event.touches[0];
-    state.touchStart = { x: touch.clientX, y: touch.clientY };
-  }, { passive: true });
+  elements.searchOverlay.addEventListener(
+    "click",
+    (event) => {
+      if (event.target === elements.searchOverlay) {
+        closeSearch();
+      }
+    },
+  );
 
-  elements.pageStage.addEventListener("touchend", (event) => {
-    if (!state.touchStart || state.searchOpen) return;
-    const touch = event.changedTouches[0];
-    const dx = touch.clientX - state.touchStart.x;
-    const dy = touch.clientY - state.touchStart.y;
-    state.touchStart = null;
-    if (Math.abs(dx) < 72 || Math.abs(dx) < Math.abs(dy) * 1.35) return;
-    goTo(state.currentIndex + (dx < 0 ? 1 : -1));
-  }, { passive: true });
+  elements.pageStage.addEventListener(
+    "touchstart",
+    (event) => {
+      if (
+        event.target.closest(
+          "button, input, a, .daily-specials-grid",
+        ) ||
+        state.searchOpen ||
+        state.imageOpen
+      ) {
+        return;
+      }
+
+      const touch = event.touches[0];
+
+      state.touchStart = {
+        x: touch.clientX,
+        y: touch.clientY,
+      };
+    },
+    {
+      passive: true,
+    },
+  );
+
+  elements.pageStage.addEventListener(
+    "touchend",
+    (event) => {
+      if (!state.touchStart || state.searchOpen) return;
+
+      const touch = event.changedTouches[0];
+
+      const dx = touch.clientX - state.touchStart.x;
+      const dy = touch.clientY - state.touchStart.y;
+
+      state.touchStart = null;
+
+      if (
+        Math.abs(dx) < 72 ||
+        Math.abs(dx) < Math.abs(dy) * 1.35
+      ) {
+        return;
+      }
+
+      goTo(
+        state.currentIndex + (dx < 0 ? 1 : -1),
+      );
+    },
+    {
+      passive: true,
+    },
+  );
 
   window.addEventListener("keydown", (event) => {
     if (!state.coverOpen) return;
-    if (event.key === "Escape" && state.imageOpen) return closeImageViewer();
-    if (event.key === "Escape" && state.searchOpen) return closeSearch();
+
+    if (event.key === "Escape" && state.imageOpen) {
+      return closeImageViewer();
+    }
+
+    if (event.key === "Escape" && state.searchOpen) {
+      return closeSearch();
+    }
+
     if (state.searchOpen || state.imageOpen) return;
-    if (event.key === "ArrowRight") goTo(state.currentIndex + 1);
-    if (event.key === "ArrowLeft") goTo(state.currentIndex - 1);
+
+    if (event.key === "ArrowRight") {
+      goTo(state.currentIndex + 1);
+    }
+
+    if (event.key === "ArrowLeft") {
+      goTo(state.currentIndex - 1);
+    }
   });
 }
 
 async function loadMenu() {
   try {
-    const response = await fetch("menu.json", { cache: "no-store" });
-    if (!response.ok) throw new Error(`Menu request failed with ${response.status}`);
+    const response = await fetch("menu.json", {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Menu request failed with ${response.status}`,
+      );
+    }
+
     const menu = await response.json();
-    if (!Array.isArray(menu.categories) || !menu.categories.length) throw new Error("No menu categories found");
+
+    if (
+      !Array.isArray(menu.categories) ||
+      !menu.categories.length
+    ) {
+      throw new Error("No menu categories found");
+    }
 
     state.menu = menu;
+
     renderView();
+
     elements.openMenu.disabled = false;
   } catch (error) {
     console.error(error);
+
     elements.pageStage.innerHTML = `
       <p class="error-state">
-        The menu could not load. If you opened index.html directly, run it through GitHub Pages,
-        Cloudflare Pages or a local web server so menu.json can be read.
+        The menu could not load. If you opened index.html
+        directly, run it through GitHub Pages, Cloudflare
+        Pages or a local web server so menu.json can be read.
       </p>
     `;
+
     elements.openMenu.disabled = true;
   }
 }
 
 async function init() {
   elements.bookShell.inert = true;
+
   setupOptionalImages();
   setupImageViewer();
   setupBackToTop();
   bindEvents();
+
   await loadMenu();
 
-  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-    navigator.serviceWorker.register("service-worker.js").catch((error) => console.warn("Service worker not registered", error));
+  if (
+    "serviceWorker" in navigator &&
+    location.protocol.startsWith("http")
+  ) {
+    navigator.serviceWorker
+      .register("service-worker.js")
+      .catch((error) => {
+        console.warn(
+          "Service worker not registered",
+          error,
+        );
+      });
   }
 }
 
