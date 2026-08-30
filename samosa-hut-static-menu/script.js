@@ -1363,7 +1363,7 @@ elements.pageStage.addEventListener(
       swipe opens the first category.
     */
     if (state.currentIndex === -1) {
-      if (dx > 0) {
+      if (dx < 0) {
         goTo(0);
       }
 
