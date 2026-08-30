@@ -893,21 +893,21 @@ function setupSwipeHint() {
       viewBox="0 0 76 34"
       aria-hidden="true"
     >
-      <path
-        class="swipe-hint-arrow"
-        d="M8 17H68M59 8L68 17L59 26"
-      ></path>
+       <path
+      class="swipe-hint-arrow"
+  d="M68 17H8M17 8L8 17L17 26"
+></path>
 
-      <circle
-        class="swipe-hint-dot"
-        cx="17"
-        cy="17"
-        r="7"
-      ></circle>
+<circle
+  class="swipe-hint-dot"
+  cx="59"
+  cy="17"
+  r="7"
+></circle>
     </svg>
 
     <span class="swipe-hint-copy">
-    <strong>Swipe right to begin</strong>
+    <strong>Swipe left to begin</strong>
     <small>Or tap any category you would like</small>
     </span>
   `;
