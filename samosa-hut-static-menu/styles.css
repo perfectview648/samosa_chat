@@ -2118,3 +2118,26 @@ button.product-image-slot {
   fill: currentColor;
   stroke: none;
 }
+/* Keep the marquee moving on mobile devices */
+@media (max-width: 700px) {
+  .menu-marquee {
+    overflow: hidden;
+  }
+
+  .menu-marquee-track {
+    width: max-content;
+    display: flex;
+    animation: menu-marquee-scroll 24s linear infinite !important;
+    animation-play-state: running !important;
+    will-change: transform;
+  }
+
+  .menu-marquee:hover .menu-marquee-track,
+  .menu-marquee:focus-within .menu-marquee-track {
+    animation-play-state: running !important;
+  }
+
+  .menu-marquee-copy[aria-hidden="true"] {
+    display: flex !important;
+  }
+}
