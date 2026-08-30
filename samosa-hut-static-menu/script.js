@@ -9,6 +9,7 @@ const state = {
   transitioning: false,
   searchMatches: [],
   touchStart: null,
+  ignoreCategoryClickUntil: 0,
 
 };
 
@@ -904,8 +905,8 @@ function setupSwipeHint() {
     </svg>
 
     <span class="swipe-hint-copy">
-      <strong>Swipe right</strong>
-      <small>Go to the next menu page</small>
+    <strong>Swipe right to begin</strong>
+    <small>Or tap any category you would like</small>
     </span>
   `;
 
@@ -1166,6 +1167,10 @@ function bindEvents() {
   elements.pageStage.addEventListener(
     "click",
     (event) => {
+      if (Date.now() < state.ignoreCategoryClickUntil) {
+  event.preventDefault();
+  return;
+}
       const imageTrigger = event.target.closest(
         "[data-enlarge-image]",
       );
@@ -1260,67 +1265,97 @@ function bindEvents() {
     },
   );
 
-  elements.pageStage.addEventListener(
-    "touchstart",
-    (event) => {
-      if (
-        event.target.closest(
-          "button, input, a, .daily-specials-grid",
-        ) ||
-        state.searchOpen ||
-        state.imageOpen
-      ) {
-        return;
+elements.pageStage.addEventListener(
+  "touchstart",
+  (event) => {
+    const categoryButton = event.target.closest(
+      "[data-category-index]",
+    );
+
+    const interactiveControl = event.target.closest(
+      "button, input, a",
+    );
+
+    if (
+      (interactiveControl && !categoryButton) ||
+      event.target.closest(".daily-specials-grid") ||
+      state.searchOpen ||
+      state.imageOpen
+    ) {
+      return;
+    }
+
+    const touch = event.touches[0];
+
+    state.touchStart = {
+      x: touch.clientX,
+      y: touch.clientY,
+    };
+  },
+  {
+    passive: true,
+  },
+);
+
+elements.pageStage.addEventListener(
+  "touchend",
+  (event) => {
+    if (
+      !state.touchStart ||
+      state.searchOpen ||
+      state.imageOpen
+    ) {
+      return;
+    }
+
+    const touch = event.changedTouches[0];
+
+    const dx =
+      touch.clientX - state.touchStart.x;
+
+    const dy =
+      touch.clientY - state.touchStart.y;
+
+    state.touchStart = null;
+
+    if (
+      Math.abs(dx) < 72 ||
+      Math.abs(dx) < Math.abs(dy) * 1.35
+    ) {
+      return;
+    }
+
+    /*
+      Prevent the category button underneath the
+      swipe from also being selected.
+    */
+    state.ignoreCategoryClickUntil =
+      Date.now() + 600;
+
+    /*
+      On the Menu Categories page, only a right
+      swipe opens the first category.
+    */
+    if (state.currentIndex === -1) {
+      if (dx > 0) {
+        goTo(0);
       }
 
-      const touch = event.touches[0];
+      return;
+    }
 
-      state.touchStart = {
-        x: touch.clientX,
-        y: touch.clientY,
-      };
-    },
-    {
-      passive: true,
-    },
-  );
-
-  elements.pageStage.addEventListener(
-    "touchend",
-    (event) => {
-      if (
-        !state.touchStart ||
-        state.searchOpen
-      ) {
-        return;
-      }
-
-      const touch = event.changedTouches[0];
-
-      const dx =
-        touch.clientX - state.touchStart.x;
-
-      const dy =
-        touch.clientY - state.touchStart.y;
-
-      state.touchStart = null;
-
-      if (
-        Math.abs(dx) < 72 ||
-        Math.abs(dx) < Math.abs(dy) * 1.35
-      ) {
-        return;
-      }
-
-      goTo(
-        state.currentIndex +
-          (dx < 0 ? 1 : -1),
-      );
-    },
-    {
-      passive: true,
-    },
-  );
+    /*
+      Keep the existing swipe behaviour on all
+      regular menu pages.
+    */
+    goTo(
+      state.currentIndex + (dx < 0 ? 1 : -1),
+    );
+  },
+  {
+    passive: true,
+  },
+);
 
   window.addEventListener(
     "keydown",
