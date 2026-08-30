@@ -1995,3 +1995,102 @@ button.product-image-slot {
     line-height: 1.45;
   }
 }
+/* Thin scrolling information marquee */
+.menu-marquee {
+  max-width: 920px;
+  min-height: 30px;
+  margin: -10px auto 22px;
+  overflow: hidden;
+  color: var(--ink);
+  border: 1px solid rgba(255, 224, 123, 0.7);
+  border-radius: 2px;
+  background: var(--gold);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+}
+
+.menu-marquee-track {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  animation: menu-marquee-scroll 24s linear infinite;
+  will-change: transform;
+}
+
+.menu-marquee-copy {
+  min-width: max-content;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  padding-right: 28px;
+  white-space: nowrap;
+}
+
+.menu-marquee-copy > span {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.055em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.menu-marquee-copy > span::after {
+  content: "•";
+  margin: 0 18px;
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.menu-marquee a,
+.menu-marquee-instagram {
+  color: var(--ink);
+  font-weight: 950;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.menu-marquee:hover .menu-marquee-track,
+.menu-marquee:focus-within .menu-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes menu-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (max-width: 700px) {
+  .menu-marquee {
+    min-height: 28px;
+    margin: -8px auto 18px;
+  }
+
+  .menu-marquee-copy > span {
+    min-height: 28px;
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-marquee {
+    overflow-x: auto;
+  }
+
+  .menu-marquee-track {
+    animation: none !important;
+    transform: none;
+  }
+
+  .menu-marquee-copy[aria-hidden="true"] {
+    display: none;
+  }
+}
