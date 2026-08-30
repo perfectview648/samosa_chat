@@ -297,39 +297,91 @@ function renderSpecialNotice(notice) {
     </section>
   `;
 }
-
 function renderCategories() {
   const categories = state.menu.categories;
 
   return `
     <section class="contents-page">
+      <aside
+        class="menu-marquee"
+        aria-label="Restaurant hours, Instagram and locations"
+      >
+        <div class="menu-marquee-track">
+          <div class="menu-marquee-copy">
+            <span>Monday–Saturday 11 AM–9 PM</span>
+            <span>Sunday 11 AM–8 PM</span>
+
+            <span>
+              Instagram
+              <a
+                href="https://www.instagram.com/samosahut/?hl=en#"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                @samosahut
+              </a>
+            </span>
+
+            <span>Locations: Ajax &amp; Bowmanville</span>
+          </div>
+
+          <div
+            class="menu-marquee-copy"
+            aria-hidden="true"
+          >
+            <span>Monday–Saturday 11 AM–9 PM</span>
+            <span>Sunday 11 AM–8 PM</span>
+
+            <span>
+              Instagram
+              <b class="menu-marquee-instagram">
+                @samosahut
+              </b>
+            </span>
+
+            <span>Locations: Ajax &amp; Bowmanville</span>
+          </div>
+        </div>
+      </aside>
+
       <div class="contents-heading">
         <p>Choose your craving</p>
         <h2>Menu Categories</h2>
-        <span class="hand-underline" aria-hidden="true"></span>
+        <span
+          class="hand-underline"
+          aria-hidden="true"
+        ></span>
       </div>
 
       <div class="category-grid">
         ${categories
           .map(
             (category, index) => `
-          <button
-            type="button"
-            class="category-tile"
-            data-category-index="${index}"
-          >
-            <span class="category-number">
-              ${escapeHTML(category.number)}
-            </span>
+              <button
+                type="button"
+                class="category-tile"
+                data-category-index="${index}"
+              >
+                <span class="category-number">
+                  ${escapeHTML(category.number)}
+                </span>
 
-            <span class="category-copy">
-              <b>${escapeHTML(category.name)}</b>
-              <small>${escapeHTML(category.description)}</small>
-            </span>
+                <span class="category-copy">
+                  <b>${escapeHTML(category.name)}</b>
 
-            <span class="category-arrow" aria-hidden="true">↗</span>
-          </button>
-        `,
+                  <small>
+                    ${escapeHTML(category.description)}
+                  </small>
+                </span>
+
+                <span
+                  class="category-arrow"
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+              </button>
+            `,
           )
           .join("")}
       </div>
