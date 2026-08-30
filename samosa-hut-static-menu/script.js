@@ -1238,9 +1238,13 @@ function bindEvents() {
           "[data-category-index]",
         );
 
-      if (categoryButton) {
-          goTo(Number(categoryButton.dataset.categoryIndex));
-          }
+        if (categoryButton) {
+          goTo(
+          Number(categoryButton.dataset.categoryIndex),
+            ).then(() => {
+    showSwipeHintOnce();
+  });
+}
         },
       );
 
