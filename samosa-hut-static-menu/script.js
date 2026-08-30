@@ -312,7 +312,7 @@ function renderCategories() {
             <span>Sunday 11 AM–8 PM</span>
 
             <span>
-              Instagram
+              🅾
               <a
                 href="https://www.instagram.com/samosahut/?hl=en#"
                 target="_blank"
@@ -333,7 +333,7 @@ function renderCategories() {
             <span>Sunday 11 AM–8 PM</span>
 
             <span>
-              Instagram
+              🅾
               <b class="menu-marquee-instagram">
                 @samosahut
               </b>
