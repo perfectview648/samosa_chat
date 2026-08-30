@@ -1934,3 +1934,42 @@ button.product-image-slot {
     transition-duration: 0.01ms !important;
   }
 }
+/* Mobile daily specials:
+   show today's deal first and keep the original vertical layout */
+@media (max-width: 700px) {
+  .daily-specials-hint {
+    display: none;
+  }
+
+  .daily-specials-grid {
+    width: 100%;
+    max-width: 920px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 0 auto;
+    padding: 0;
+    overflow: visible;
+    scroll-padding-inline: 0;
+    scroll-snap-type: none;
+    scrollbar-width: auto;
+    overscroll-behavior: auto;
+    -webkit-overflow-scrolling: auto;
+    touch-action: auto;
+  }
+
+  .daily-specials-grid::before,
+  .daily-specials-grid::after {
+    display: none;
+  }
+
+  .daily-specials-grid .daily-special-card {
+    flex: none;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
+  .daily-specials-grid .daily-special-card.is-today {
+    order: -1;
+  }
+}
