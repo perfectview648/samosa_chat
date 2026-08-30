@@ -1973,3 +1973,25 @@ button.product-image-slot {
     order: -1;
   }
 }
+/* Two flavours/sauces per row on mobile */
+@media (max-width: 700px) {
+  .choice-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 14px;
+  }
+
+  .choice-list li {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .fusion-guide ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 14px;
+  }
+
+  .fusion-guide li {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+}
