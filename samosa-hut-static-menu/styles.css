@@ -2141,7 +2141,7 @@ button.product-image-slot {
     display: flex !important;
   }
 }
-/* Keep every category arrow perfectly aligned */
+/* Original handmade arrow style with corrected alignment */
 .category-tile {
   position: relative;
   padding-right: 48px;
@@ -2151,29 +2151,36 @@ button.product-image-slot {
   position: absolute;
   top: 50%;
   right: 14px;
-  width: 24px;
-  height: 24px;
-  display: grid;
-  place-items: center;
+  width: 22px;
+  height: 22px;
   color: transparent;
   font-size: 0;
   transform: translateY(-50%);
 }
 
+/* Diagonal arrow stem */
 .category-arrow::before {
-  content: "↗";
-  position: static;
-  width: auto;
-  height: auto;
-  color: var(--gold);
-  background: none;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 22px;
-  font-weight: 400;
-  line-height: 1;
-  transform: none;
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 10px;
+  width: 24px;
+  height: 1.5px;
+  background: var(--gold);
+  border-radius: 999px;
+  transform: rotate(-45deg);
+  transform-origin: center;
 }
 
+/* Arrowhead */
 .category-arrow::after {
-  display: none;
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-top: 1.5px solid var(--gold);
+  border-right: 1.5px solid var(--gold);
 }
