@@ -37,8 +37,7 @@ const reducedMotion = window.matchMedia(
 
 const TORONTO_TIME_ZONE = "America/Toronto";
 
-const SWIPE_HINT_STORAGE_KEY =
-  "samosa-hut-swipe-hint-seen-v1";
+
 
 const DAILY_SPECIAL_CATEGORY_IDS = new Set([
   "menu-daily-specials",
@@ -732,6 +731,10 @@ function openMenu() {
   elements.bookShell.inert = false;
 
   updateBackToTop();
+
+window.setTimeout(() => {
+  showSwipeHintOnce();
+}, 500);
 }
 
 function returnToCover() {
@@ -930,62 +933,35 @@ function hideSwipeHint() {
 function showSwipeHintOnce() {
   if (
     !elements.swipeHint ||
+    state.swipeHintShown ||
     !window.matchMedia("(max-width: 700px)").matches
   ) {
     return;
   }
 
-  let alreadySeen = false;
-
-  try {
-    alreadySeen =
-      window.localStorage.getItem(
-        SWIPE_HINT_STORAGE_KEY,
-      ) === "true";
-  } catch (error) {
-    console.warn(
-      "Swipe hint storage is unavailable",
-      error,
-    );
-  }
-
-  if (alreadySeen || state.swipeHintShown) {
-    return;
-  }
-
   state.swipeHintShown = true;
-
-  try {
-    window.localStorage.setItem(
-      SWIPE_HINT_STORAGE_KEY,
-      "true",
-    );
-  } catch (error) {
-    console.warn(
-      "Swipe hint could not be saved",
-      error,
-    );
-  }
 
   elements.swipeHint.setAttribute(
     "aria-hidden",
     "false",
   );
 
-  elements.swipeHint.classList.remove(
-    "is-visible",
-  );
-
-  void elements.swipeHint.offsetWidth;
-
   elements.swipeHint.classList.add(
     "is-visible",
   );
 
-  state.swipeHintTimer = window.setTimeout(
-    hideSwipeHint,
-    3000,
-  );
+  state.swipeHintTimer = window.setTimeout(() => {
+    elements.swipeHint.classList.remove(
+      "is-visible",
+    );
+
+    elements.swipeHint.setAttribute(
+      "aria-hidden",
+      "true",
+    );
+
+    state.swipeHintTimer = null;
+  }, 3000);
 }
 
 function updateBackToTop() {
@@ -1238,12 +1214,10 @@ function bindEvents() {
           "[data-category-index]",
         );
 
-        if (categoryButton) {
-          goTo(
+      if (categoryButton) {
+        goTo(
           Number(categoryButton.dataset.categoryIndex),
-            ).then(() => {
-    showSwipeHintOnce();
-  });
+  );
 }
         },
       );
