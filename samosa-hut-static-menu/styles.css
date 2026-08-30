@@ -2094,3 +2094,27 @@ button.product-image-slot {
     display: none;
   }
 }
+.menu-marquee-instagram {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ink);
+  font-weight: 950;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.menu-marquee-instagram-icon {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.menu-marquee-instagram-icon .instagram-icon-dot {
+  fill: currentColor;
+  stroke: none;
+}
