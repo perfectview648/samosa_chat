@@ -1358,17 +1358,20 @@ elements.pageStage.addEventListener(
     state.ignoreCategoryClickUntil =
       Date.now() + 600;
 
-    /*
-      On the Menu Categories page, only a right
-      swipe opens the first category.
-    */
-    if (state.currentIndex === -1) {
-      if (dx < 0) {
-        goTo(0);
-      }
 
-      return;
-    }
+  /*
+  On the Menu Categories page, a swipe
+  from right to left opens Signature Fusion.
+  */
+if (state.currentIndex === -1) {
+  const swipedRightToLeft = dx <= -50;
+
+  if (swipedRightToLeft) {
+    goTo(0);
+  }
+
+  return;
+}
 
     /*
       Keep the existing swipe behaviour on all
