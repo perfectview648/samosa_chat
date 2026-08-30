@@ -2288,23 +2288,15 @@ button.product-image-slot {
 }
 
 @keyframes swipe-hint-movement {
-  0% {
-    opacity: 0;
+  0%,
+  100% {
+    opacity: 0.4;
     transform: translateX(0);
   }
 
-  20% {
+  50% {
     opacity: 1;
-  }
-
-  75% {
-    opacity: 1;
-    transform: translateX(42px);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(42px);
+    transform: translateX(-42px);
   }
 }
 
