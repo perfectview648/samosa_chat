@@ -1999,7 +1999,7 @@ button.product-image-slot {
 .menu-marquee {
   max-width: 920px;
   min-height: 30px;
-  margin: -10px auto 22px;
+  margin: -7px auto 22px;
   overflow: hidden;
   color: var(--ink);
   border: 1px solid rgba(255, 224, 123, 0.7);
