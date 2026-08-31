@@ -2346,21 +2346,37 @@ button.product-image-slot {
   padding-top: 100;
 }
 
-/* Stretch the background and keep headings below the chalk line */
+/* Consistent chalk border across every page */
 .contents-page,
 .category-page {
-  width: 100%;
-  min-height: calc(
-    100dvh - 74px - var(--nav-height)
-  );
+  position: relative;
+  isolation: isolate;
+  background: #111;
+}
 
-  padding:
-    clamp(95px, 15vw, 125px)
-    clamp(20px, 5vw, 54px)
-    clamp(75px, 10vw, 115px);
+/* Use the PNG as a stretchable border */
+.contents-page::before,
+.category-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 
-  background-image: url("images/chalk-background.png");
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 100% 100%;
+  border-style: solid;
+  border-width: 65px 45px;
+
+  border-image-source:
+    url("images/chalk-background.png");
+
+  border-image-slice: 90 75 90 75 fill;
+  border-image-width: 65px 45px;
+  border-image-repeat: stretch round;
+}
+
+/* Keep all menu content above the background */
+.contents-page > *,
+.category-page > * {
+  position: relative;
+  z-index: 1;
 }
