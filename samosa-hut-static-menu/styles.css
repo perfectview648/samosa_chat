@@ -2323,3 +2323,21 @@ button.product-image-slot {
     animation: none !important;
   }
 }
+/* Exact chalk PNG background on every menu page */
+.contents-page,
+.category-page {
+  min-height: calc(
+    100dvh - 74px - var(--nav-height) - 40px
+  );
+
+  padding:
+    clamp(52px, 7vw, 80px)
+    clamp(20px, 5vw, 54px)
+    clamp(72px, 9vw, 110px);
+
+  background-color: #111;
+  background-image: url("images/chalk-background.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
