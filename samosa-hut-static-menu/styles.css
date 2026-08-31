@@ -2323,38 +2323,25 @@ button.product-image-slot {
     animation: none !important;
   }
 }
-/* Exact chalk PNG background on every menu page */
-.contents-page,
-.category-page {
-  min-height: calc(
-    100dvh - 74px - var(--nav-height) - 40px
-  );
-
-  padding:
-    clamp(52px, 7vw, 80px)
-    clamp(20px, 5vw, 54px)
-    clamp(72px, 9vw, 110px);
-
-  background-color: #111;
-  background-image: url("images/chalk-background.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% auto;
-}
-/* Start the chalk background directly below the header */
+/* Chalk background and border on every menu page */
 .page-stage {
   padding-top: 0;
 }
 
-/* Consistent chalk border across every page */
 .contents-page,
 .category-page {
   position: relative;
   isolation: isolate;
+  min-height: calc(
+    100dvh - 74px - var(--nav-height) - 40px
+  );
+  padding:
+    clamp(52px, 7vw, 80px)
+    clamp(20px, 5vw, 54px)
+    clamp(72px, 9vw, 110px);
   background: #111;
 }
 
-/* Use the PNG as a stretchable border */
 .contents-page::before,
 .category-page::before {
   content: "";
@@ -2379,4 +2366,25 @@ button.product-image-slot {
 .category-page > * {
   position: relative;
   z-index: 1;
+}
+
+/* Stretch the complete chalk frame across mobile screens */
+@media (max-width: 700px) {
+  .page-stage {
+    width: 100%;
+    max-width: none;
+    margin-right: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .contents-page,
+  .category-page {
+    width: 100%;
+    max-width: none;
+    margin-right: 0;
+    margin-left: 0;
+  }
 }
