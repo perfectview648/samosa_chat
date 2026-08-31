@@ -10,6 +10,7 @@ const CORE_FILES = [
   "./menu.json",
   "./manifest.webmanifest",
   "./images/samosa-hut-header-logo.png",
+  "./images/chalk-background.png",
 ];
 
 self.addEventListener("install", (event) => {
