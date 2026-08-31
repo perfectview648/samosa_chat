@@ -2386,5 +2386,17 @@ button.product-image-slot {
     max-width: none;
     margin-right: 0;
     margin-left: 0;
+    padding-top: clamp(82px, 22vw, 96px);
+    padding-right: clamp(28px, 7.5vw, 34px);
+    padding-bottom: clamp(68px, 18vw, 82px);
+    padding-left: clamp(28px, 7.5vw, 34px);
+  }
+
+  /* Reduce all menu content by 10% without shrinking the frame */
+  .contents-page > *,
+  .category-page > * {
+    zoom: 0.9;
+    margin-right: auto;
+    margin-left: auto;
   }
 }
