@@ -2343,7 +2343,7 @@ button.product-image-slot {
 }
 /* Start the chalk background directly below the header */
 .page-stage {
-  padding-top: 30;
+  padding-top: 100;
 }
 
 /* Stretch the background and keep headings below the chalk line */
