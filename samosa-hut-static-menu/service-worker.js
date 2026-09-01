@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "samosa-hut-menu-v39";
+const CACHE_NAME = "samosa-hut-menu-v40";
 
 const CORE_FILES = [
   "./",
