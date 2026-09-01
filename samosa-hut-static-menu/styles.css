@@ -2373,8 +2373,8 @@ button.product-image-slot {
   .page-stage {
     width: 100%;
     max-width: none;
-    margin-right: auto;
-    margin-left: auto;
+    margin-right: 0;
+    margin-left: 0;
     padding-top: 0;
     padding-right: 0;
     padding-left: 0;
@@ -2395,7 +2395,7 @@ button.product-image-slot {
   /* Reduce all menu content by 10% without shrinking the frame */
   .contents-page > *,
   .category-page > * {
-    zoom: 1;
+    zoom: 0.9;
     margin-right: auto;
     margin-left: auto;
   }
