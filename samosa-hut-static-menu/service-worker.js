@@ -12,7 +12,7 @@ const CORE_FILES = [
   "./images/samosa-hut-header-logo.png",
   "./images/chalk-background.png",
 ];
-
+ 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
