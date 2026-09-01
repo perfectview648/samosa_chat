@@ -2409,3 +2409,52 @@ button.product-image-slot {
     margin-left: 18px !important;
   }
 }
+/* Mobile: use the same chalk frame on the Open Menu cover */
+@media (max-width: 700px) {
+  .cover {
+    padding: 0;
+    background: #111;
+  }
+
+  .cover-board {
+    width: 100%;
+    max-width: none;
+    min-height: 100dvh;
+    padding:
+      clamp(70px, 10vh, 92px)
+      clamp(52px, 13vw, 66px);
+    border: 0;
+    border-radius: 0;
+    background: #111;
+    box-shadow: none;
+  }
+
+  .cover-board::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+
+    border-style: solid;
+    border-width: 65px 45px;
+    border-image-source:
+      url("images/chalk-background.png");
+    border-image-slice: 90 75 90 75 fill;
+    border-image-width: 65px 45px;
+    border-image-repeat: stretch round;
+    box-shadow: none;
+  }
+
+  /* Remove the old gold corner decoration on mobile */
+  .cover-board::after {
+    display: none;
+  }
+
+  /* Keep the logo, text and button above the chalk image */
+  .cover-board > * {
+    position: relative;
+    z-index: 1;
+  }
+}
