@@ -2357,7 +2357,7 @@ button.product-image-slot {
     url("images/chalk-background.png");
 
   border-image-slice: 90 75 90 75 fill;
-  border-image-width: 90px 80px;
+  border-image-width: 65px 45px;
   border-image-repeat: stretch round;
 }
 
@@ -2400,5 +2400,12 @@ button.product-image-slot {
     margin-left: auto;
   }
 
+}
+/* Move only the chalk border to the mobile screen edges */
+@media (max-width: 700px) {
+  .contents-page::before,
+  .category-page::before {
+    inset: 0 -24px;
+  }
 }
 
