@@ -2373,8 +2373,8 @@ button.product-image-slot {
   .page-stage {
     width: 100%;
     max-width: none;
-    margin-right: 0;
-    margin-left: 0;
+    margin-right: auto;
+    margin-left: auto;
     padding-top: 0;
     padding-right: 0;
     padding-left: 0;
