@@ -1,12 +1,12 @@
 "use strict";
 
-const CACHE_NAME = "samosa-hut-menu-v42";
+const CACHE_NAME = "samosa-hut-menu-v44";
 
 const CORE_FILES = [
   "./",
   "./index.html",
-  "./styles.css?v=43",
-  "./script.js?v=43",
+  "./styles.css?v=44",
+  "./script.js?v=44",
   "./menu.json",
   "./manifest.webmanifest",
   "./images/samosa-hut-header-logo.png",
