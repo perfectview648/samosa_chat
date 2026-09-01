@@ -2400,3 +2400,11 @@ button.product-image-slot {
     margin-left: auto;
   }
 }
+/* Mobile: keep category boxes away from chalk border */
+@media (max-width: 700px) {
+  .contents-page .category-grid {
+    width: auto !important;
+    margin-right: 18px !important;
+    margin-left: 18px !important;
+  }
+}
