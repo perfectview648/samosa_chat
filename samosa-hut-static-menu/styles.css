@@ -2395,7 +2395,7 @@ button.product-image-slot {
   /* Reduce all menu content by 10% without shrinking the frame */
   .contents-page > *,
   .category-page > * {
-    zoom: 0.9;
+    zoom: 0.4;
     margin-right: auto;
     margin-left: auto;
   }
