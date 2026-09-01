@@ -2357,7 +2357,7 @@ button.product-image-slot {
     url("images/chalk-background.png");
 
   border-image-slice: 90 75 90 75 fill;
-  border-image-width: 75px 60px;
+  border-image-width: 90px 80px;
   border-image-repeat: stretch round;
 }
 
