@@ -5,8 +5,8 @@ const CACHE_NAME = "samosa-hut-menu-v42";
 const CORE_FILES = [
   "./",
   "./index.html",
-  "./styles.css?v=42",
-  "./script.js?v=42",
+  "./styles.css?v=43",
+  "./script.js?v=43",
   "./menu.json",
   "./manifest.webmanifest",
   "./images/samosa-hut-header-logo.png",
