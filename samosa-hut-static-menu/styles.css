@@ -2357,7 +2357,7 @@ button.product-image-slot {
     url("images/chalk-background.png");
 
   border-image-slice: 90 75 90 75 fill;
-  border-image-width: 65px 45px;
+  border-image-width: 75px 60px;
   border-image-repeat: stretch round;
 }
 
@@ -2373,8 +2373,8 @@ button.product-image-slot {
   .page-stage {
     width: 100%;
     max-width: none;
-    margin-right: -10;
-    margin-left: -10;
+    margin-right: 0;
+    margin-left: 0;
     padding-top: 0;
     padding-right: 0;
     padding-left: 0;
@@ -2399,4 +2399,6 @@ button.product-image-slot {
     margin-right: auto;
     margin-left: auto;
   }
+
 }
+
