@@ -1,12 +1,12 @@
 "use strict";
 
-const CACHE_NAME = "samosa-hut-menu-v40";
+const CACHE_NAME = "samosa-hut-menu-v41";
 
 const CORE_FILES = [
   "./",
   "./index.html",
-  "./styles.css?v=40",
-  "./script.js?v=11",
+  "./styles.css?v=41",
+  "./script.js?v=41",
   "./menu.json",
   "./manifest.webmanifest",
   "./images/samosa-hut-header-logo.png",
@@ -46,10 +46,25 @@ self.addEventListener("fetch", (event) => {
 
   if (url.origin !== self.location.origin) return;
 
-  const isMenuData = url.pathname.endsWith("/menu.json");
-  const isNavigation = request.mode === "navigate";
+  const isMenuData =
+    url.pathname.endsWith("/menu.json");
 
-  if (isMenuData || isNavigation) {
+  const isNavigation =
+    request.mode === "navigate";
+
+  const isLiveAsset =
+    url.pathname.endsWith("/styles.css") ||
+    url.pathname.endsWith("/script.js");
+
+  /*
+    Always request the newest HTML, menu data,
+    CSS and JavaScript before using the cache.
+  */
+  if (
+    isMenuData ||
+    isNavigation ||
+    isLiveAsset
+  ) {
     event.respondWith(
       fetch(request)
         .then((response) => {
@@ -57,18 +72,30 @@ self.addEventListener("fetch", (event) => {
 
           caches
             .open(CACHE_NAME)
-            .then((cache) => cache.put(request, copy));
+            .then((cache) =>
+              cache.put(request, copy),
+            );
 
           return response;
         })
-        .catch(() =>
-          caches
-            .match(request)
-            .then(
-              (cached) =>
-                cached || caches.match("./index.html"),
-            ),
-        ),
+        .catch(async () => {
+          const cached =
+            await caches.match(request);
+
+          if (cached) return cached;
+
+          if (isNavigation) {
+            return caches.match("./index.html");
+          }
+
+          return new Response(
+            "Content unavailable while offline.",
+            {
+              status: 503,
+              statusText: "Service Unavailable",
+            },
+          );
+        }),
     );
 
     return;
@@ -79,7 +106,10 @@ self.addEventListener("fetch", (event) => {
       if (cached) return cached;
 
       return fetch(request).then((response) => {
-        if (!response || response.status !== 200) {
+        if (
+          !response ||
+          response.status !== 200
+        ) {
           return response;
         }
 
@@ -87,7 +117,9 @@ self.addEventListener("fetch", (event) => {
 
         caches
           .open(CACHE_NAME)
-          .then((cache) => cache.put(request, copy));
+          .then((cache) =>
+            cache.put(request, copy),
+          );
 
         return response;
       });
