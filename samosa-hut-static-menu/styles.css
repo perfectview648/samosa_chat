@@ -2399,13 +2399,4 @@ button.product-image-slot {
     margin-right: auto;
     margin-left: auto;
   }
-
 }
-/* Move only the chalk border to the mobile screen edges */
-@media (max-width: 700px) {
-  .contents-page::before,
-  .category-page::before {
-    inset: 0 -24px;
-  }
-}
-
