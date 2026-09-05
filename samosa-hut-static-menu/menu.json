@@ -38,10 +38,10 @@
       "eyebrow": "Fresh, crisp, made to share",
       "description": "Classic potato and veggie samosas, plus Samosa Hut's signature filled collection.",
       "items": [
-        { "name": "Potato & Veggie Samosas", "options": [{ "label": "3 pcs", "price": "$1.85" }, { "label": "25 pcs", "price": "$14.85" }, { "label": "50 pcs", "price": "$27.85" }, { "label": "75 pcs", "price": "$41.85" }, { "label": "100 pcs", "price": "$52.85" }], "accent": "Classic", "imageSlot": true, "image": "images/samosa-pv.png" },
-        { "name": "Signature Samosas Deals", "options": [{ "label": "2 pcs", "price": "$2.85" }, { "label": "12 pcs", "price": "$15.85" }, { "label": "25 pcs", "price": "$28.85" }, { "label": "50 pcs", "price": "$55.85" }, { "label": "75 pcs", "price": "$82.85" }, { "label": "100 pcs", "price": "$105.85" }], "accent": "7 flavours" },
+        { "name": "Potato & Veggie Samosas", "options": [{ "label": "2 pcs", "price": "$1.50" }, { "label": "25 pcs", "price": "$16.85" }, { "label": "50 pcs", "price": "$32.85" }, { "label": "75 pcs", "price": "$46.85" }, { "label": "100 pcs", "price": "$58.85" }], "accent": "Classic", "imageSlot": true, "image": "images/samosa-pv.png" },
+        { "name": "Signature Samosas Deals", "options": [{ "label": "1 pcs", "price": "$1.65" }, { "label": "6 pcs", "price": "$8.95" }, { "label": "12 pcs", "price": "$16.95" }, { "label": "25 pcs", "price": "$32.95" }, { "label": "50 pcs", "price": "$63.95" }, { "label": "75 pcs", "price": "$87.95" }, { "label": "100 pcs", "price": "$114.95" }], "accent": "7 flavours" },
         { "name": "Signature Flavours", "choices": ["Butter Chicken", "Devil Chili Chicken", "Mango Jerk Chicken", "Spicy Goat", "Beef", "Chickpea & Tamarind", "Spinach & Cheese"] },
-        { "name": "Sauces", "options": [{ "label": "Small", "price": "$1.75" }, { "label": "Large", "price": "$4.75" }], "choices": ["Sweet Tamarind", "Spicy Cilantro", "Garlic Cilantro", "Mango-Pineapple Habanero", "Signature Garlic", "Spicy Garlic", "Devil Sauce"] }
+        { "name": "Sauces", "options": [{ "label": "Small", "price": "$1.85" }, { "label": "Large", "price": "$4.85" }], "choices": ["Sweet Tamarind", "Spicy Cilantro", "Mango-Pineapple Habanero", "Signature Garlic", "Devil Chili", "Cilantro Garlic", "Spicy Garlic"] }
       ]
     },
     {
